@@ -1,6 +1,7 @@
 package order
 
 type Order struct {
+	ID        string
 	Items     []Item
 	UserEmail string
 	UserName  string

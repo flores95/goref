@@ -1,15 +1,31 @@
 package repo
 
-import "github.com/flores95/golang-curriculum-c-5/orders/order"
+import (
+	"fmt"
+
+	"github.com/flores95/golang-curriculum-c-5/orders/order"
+)
 
 //Repo is the data store for the orders microservice
 type Repo struct {
-	data []order.Order
+	data   []order.Order
+	nextID int
+}
+
+func (r *Repo) getNextID() string {
+	if r.nextID == 0 {
+		r.nextID = 1000
+	}
+
+	id := fmt.Sprintf("ORD-%d", r.nextID)
+	r.nextID++
+	return id
 }
 
 //Insert a orders into the repository
-func (r *Repo) Insert(u order.Order) {
-	r.data = append(r.data, u)
+func (r *Repo) Insert(o order.Order) {
+	o.ID = r.getNextID()
+	r.data = append(r.data, o)
 }
 
 //GetAll orders from the repository

@@ -42,9 +42,9 @@ func TestRepo_GetAll(t *testing.T) {
 			name: "Get all orders",
 			r:    &r,
 			want: []order.Order{
-				{UserEmail: "user1@test.com"},
-				{UserEmail: "user2@test.com"},
-				{UserEmail: "user3@test.com"},
+				{ID: "ORD-1000", UserEmail: "user1@test.com"},
+				{ID: "ORD-1001", UserEmail: "user2@test.com"},
+				{ID: "ORD-1002", UserEmail: "user3@test.com"},
 			},
 		},
 	}
