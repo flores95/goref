@@ -45,11 +45,11 @@ func findOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func createOrder(w http.ResponseWriter, r *http.Request) {
-	var u order.Order
+	var o order.Order
 	b, _ := ioutil.ReadAll(r.Body)
-	json.Unmarshal(b, &u)
-	store.Insert(u)
-	j, _ := json.Marshal(u)
+	json.Unmarshal(b, &o)
+	newOrder := store.Insert(o)
+	j, _ := json.Marshal(newOrder)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

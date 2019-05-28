@@ -23,9 +23,10 @@ func (r *Repo) getNextID() string {
 }
 
 //Insert a orders into the repository
-func (r *Repo) Insert(o order.Order) {
+func (r *Repo) Insert(o order.Order) order.Order {
 	o.ID = r.getNextID()
 	r.data = append(r.data, o)
+	return o
 }
 
 //GetAll orders from the repository
