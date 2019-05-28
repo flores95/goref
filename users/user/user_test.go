@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestUserHasEmail(t *testing.T) {
+func Test_UserHasEmail(t *testing.T) {
 	want := "test@testing.com"
 	u := User{Email: "test@testing.com"}
 	got := u.Email
