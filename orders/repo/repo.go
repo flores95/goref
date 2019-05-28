@@ -16,3 +16,13 @@ func (r *Repo) Insert(u order.Order) {
 func (r *Repo) GetAll() []order.Order {
 	return r.data
 }
+
+//GetOrders retrieves all orders for a given User Email
+func (r *Repo) GetOrders(e string) (orders []order.Order) {
+	for _, o := range r.data {
+		if o.UserEmail == e {
+			orders = append(orders, o)
+		}
+	}
+	return orders
+}

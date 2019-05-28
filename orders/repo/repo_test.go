@@ -56,3 +56,36 @@ func TestRepo_GetAll(t *testing.T) {
 		})
 	}
 }
+
+func TestRepo_GetOrders(t *testing.T) {
+	r := Repo{}
+	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
+	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
+	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
+	tests := []struct {
+		name       string
+		r          *Repo
+		email      string
+		wantOrders []order.Order
+	}{
+		{
+			name:       "All orders for a user with orders",
+			r:          &r,
+			email:      "hasorders@test.com",
+			wantOrders: r.GetAll(),
+		},
+		{
+			name:       "All orders for a user with no orders",
+			r:          &r,
+			email:      "noorders@test.com",
+			wantOrders: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotOrders := tt.r.GetOrders(tt.email); !reflect.DeepEqual(gotOrders, tt.wantOrders) {
+				t.Errorf("Repo.GetOrders() = %v, want %v", gotOrders, tt.wantOrders)
+			}
+		})
+	}
+}
