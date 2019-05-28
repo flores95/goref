@@ -13,6 +13,7 @@ import (
 
 var store = repo.Repo{}
 
+//OrderSearch is just a struct to marshal the data for searching orders
 type OrderSearch struct {
 	UserEmail string
 }
