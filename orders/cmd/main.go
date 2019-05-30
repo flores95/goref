@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -18,31 +19,27 @@ type OrderSearch struct {
 	UserEmail string
 }
 
-func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/orders", allOrders).Methods("GET")
-	r.HandleFunc("/orders/find", findOrders).Methods("POST")
-	r.HandleFunc("/orders", createOrder).Methods("POST")
-	http.ListenAndServe(":4181", r)
-}
-
 func allOrders(w http.ResponseWriter, r *http.Request) {
-	j, _ := json.Marshal(store.GetAll())
+	o := store.GetAll()
+	j, _ := json.Marshal(o)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+	fmt.Printf(":: [%v] ORDERS RETRIEVED ::\n", len(o))
 }
 
 func findOrders(w http.ResponseWriter, r *http.Request) {
 	var os OrderSearch
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &os)
-	j, _ := json.Marshal(store.GetOrders(os.UserEmail))
+	o := store.GetOrders(os.UserEmail)
+	j, _ := json.Marshal(o)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+	fmt.Printf(":: [%v] ORDERS FOUND ::\n", len(o))
 }
 
 func createOrder(w http.ResponseWriter, r *http.Request) {
@@ -55,4 +52,14 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+	fmt.Printf(":: ORDER CREATED :: [%v]\n", o.ID)
+}
+
+func main() {
+	fmt.Println(":: ORDERS MICROSERVICE :: http://localhost:4181")
+	r := mux.NewRouter()
+	r.HandleFunc("/orders", allOrders).Methods("GET")
+	r.HandleFunc("/orders/find", findOrders).Methods("POST")
+	r.HandleFunc("/orders", createOrder).Methods("POST")
+	http.ListenAndServe(":4181", r)
 }

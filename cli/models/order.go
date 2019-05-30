@@ -1,6 +1,12 @@
 package models
 
-import "fmt"
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
 
 type Order struct {
 	ID        string
@@ -20,9 +26,22 @@ func (i Item) String() string {
 }
 
 func (o Order) String() (s string) {
-	s += fmt.Sprintf("%v (%v)", o.ID, o.UserEmail)
+	s += fmt.Sprintf("%v %v\n", o.ID, o.UserEmail)
 	for _, i := range o.Items {
 		s += fmt.Sprintln(i)
-	} 
+	}
 	return s
+}
+
+func (o *Order) PlaceOrder() {
+	j, _ := json.Marshal(o)
+	resp, _ := http.Post("http://localhost:4181/orders", "application/json", bytes.NewBuffer(j))
+
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	var result Order
+	json.Unmarshal(body, &result)
+
+	o.ID = result.ID
 }

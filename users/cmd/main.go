@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -13,18 +14,13 @@ import (
 
 var store = repo.Repo{}
 
-func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/users", allUsers).Methods("GET")
-	r.HandleFunc("/users", createUser).Methods("POST")
-	http.ListenAndServe(":4180", r)
-}
-
 func allUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	j, _ := json.Marshal(store.GetAll())
+	u := store.GetAll()
+	j, _ := json.Marshal(u)
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+	fmt.Printf(":: [%v] USERS RETRIEVED ::\n", len(u))
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
@@ -36,4 +32,15 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	j, _ := json.Marshal(u)
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+	fmt.Printf(":: USER CREATED :: [%v]\n", u)
+}
+
+func main() {
+	fmt.Println(":: USERS MICROSERVICE :: http://localhost:4180")
+	store.LoadDemoData()
+	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.GetAll()))
+	r := mux.NewRouter()
+	r.HandleFunc("/users", allUsers).Methods("GET")
+	r.HandleFunc("/users", createUser).Methods("POST")
+	http.ListenAndServe(":4180", r)
 }
