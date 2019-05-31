@@ -2,12 +2,9 @@ package app
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 
 	"github.com/c-bata/go-prompt"
 	"github.com/flores95/golang-curriculum-c-5/cli/controllers"
-	"github.com/flores95/golang-curriculum-c-5/cli/models"
 )
 
 //App controls the application
@@ -15,6 +12,7 @@ type App struct {
 	Products controllers.ProductController
 	Users    controllers.UserController
 	Orders   controllers.OrderController
+	procs    []Processor
 }
 
 //NewApp creates a new application with injected controllers
@@ -29,56 +27,35 @@ func NewApp(
 	return a
 }
 
-func emptyCompleter(in prompt.Document) []prompt.Suggest {
+func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 	s := []prompt.Suggest{}
+
+	for _, p := range a.procs {
+		s = append(s, prompt.Suggest{Text: p.GetName(), Description: ""})
+	}
+
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
-func (a App) productFromPrompt(prompt string) (product models.Product) {
-	for _, p := range a.Products.GetAll() {
-		if p.UPC == strings.Split(prompt, " :: ")[1] {
-			product = p
-			return product
+func (a App) GetProcessorByName(n string) (proc Processor) {
+	for _, p := range a.procs {
+		if p.GetName() == n {
+			proc = p
+			return proc
 		}
 	}
-	return product
+	return proc
 }
 
-func (a App) productsCompleter(in prompt.Document) []prompt.Suggest {
-	s := []prompt.Suggest{
-		{Text: "x", Description: "Complete your order"},
-	}
-
-	for _, p := range a.Products.GetAll() {
-		s = append(s, prompt.Suggest{Text: p.String(), Description: p.Description})
-	}
-
-	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
-}
-
-//BuildOrder walks a user through selecting products to order
-func (a *App) BuildOrder() {
-	u := a.Users.GetCurrentUser()
-	fmt.Printf("Welcome %v, what would you like to order?\n", u.Name)
-
-	var o models.Order
+func (a *App) Run(procs []Processor) {
+	a.procs = procs
+	fmt.Printf("Welcome, %v!\n", a.Users.GetCurrentUser())
 	for {
-		sel := prompt.Input("ITEM: ", a.productsCompleter)
-		if sel == "x" {
+		fmt.Print(" What would you like to do now? ")
+		p := a.GetProcessorByName(prompt.Input("", a.processCompleter))
+		p.Do()
+		if p.GetName() == "Exit" {
 			break
 		}
-		item := a.productFromPrompt(sel)
-
-		qs := prompt.Input(fmt.Sprintf("How many %v would you like?", item.Name), emptyCompleter)
-		qty, _ := strconv.Atoi(qs)
-		o.Items = append(o.Items, models.Item{ItemUPC: item.UPC, Quantity: qty})
-	}
-	fmt.Println("Your order:")
-	fmt.Println(o)
-	resp := prompt.Input("Would you like to place this order now?", emptyCompleter)
-
-	if resp == "yes" {
-		newOrder := a.Orders.PlaceOrder(o)
-		fmt.Printf("Thank you %v, the following order has been placed for you:\n%v\n", u.Name, newOrder)
 	}
 }

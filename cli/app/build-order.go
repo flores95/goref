@@ -1,0 +1,84 @@
+package app
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+
+	"github.com/c-bata/go-prompt"
+	"github.com/flores95/golang-curriculum-c-5/cli/models"
+)
+
+type BuildOrderProcess struct {
+	name string
+	app  App
+}
+
+func NewBuildOrderProcess(a App) Processor {
+	proc := BuildOrderProcess{}
+	proc.name = "Order Products"
+	proc.app = a
+	return proc
+}
+
+func emptyCompleter(in prompt.Document) []prompt.Suggest {
+	s := []prompt.Suggest{}
+	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
+}
+
+func (proc BuildOrderProcess) GetName() string {
+	return proc.name
+}
+
+func (proc BuildOrderProcess) GetApp() App {
+	return proc.app
+}
+
+func (proc BuildOrderProcess) productFromPrompt(prompt string) (product models.Product) {
+	for _, p := range proc.app.Products.GetAll() {
+		if p.UPC == strings.Split(prompt, " :: ")[1] {
+			product = p
+			return product
+		}
+	}
+	return product
+}
+
+func (proc BuildOrderProcess) productsCompleter(in prompt.Document) []prompt.Suggest {
+	s := []prompt.Suggest{
+		{Text: "x", Description: "Complete your order"},
+	}
+
+	for _, p := range proc.GetApp().Products.GetAll() {
+		s = append(s, prompt.Suggest{Text: p.String(), Description: p.Description})
+	}
+
+	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
+}
+
+func (proc BuildOrderProcess) Do() {
+	a := proc.GetApp()
+	u := a.Users.GetCurrentUser()
+	fmt.Printf("%v, what would you like to order?\n", u.Name)
+
+	var o models.Order
+	for {
+		sel := prompt.Input("ITEM: ", proc.productsCompleter)
+		if sel == "x" {
+			break
+		}
+		item := proc.productFromPrompt(sel)
+
+		qs := prompt.Input(fmt.Sprintf("How many %v would you like?", item.Name), emptyCompleter)
+		qty, _ := strconv.Atoi(qs)
+		o.Items = append(o.Items, models.Item{ItemUPC: item.UPC, Quantity: qty})
+	}
+	fmt.Println("Your order:")
+	fmt.Println(o)
+	resp := prompt.Input("Would you like to place this order now?", emptyCompleter)
+
+	if resp == "yes" {
+		newOrder := a.Orders.PlaceOrder(o)
+		fmt.Printf("Thank you %v, the following order has been placed for you:\n%v\n", u.Name, newOrder)
+	}
+}

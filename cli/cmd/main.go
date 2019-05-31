@@ -6,13 +6,18 @@ import (
 )
 
 func main() {
-	app := app.NewApp(
+	a := app.NewApp(
 		controllers.NewCLIProductController(),
 		controllers.NewCLIUserController(),
 		controllers.NewCLIOrderController(),
 	)
-	app.Products.Load()
-	app.Users.Load()
-	app.Users.SetCurrentUser()
-	app.BuildOrder()
+	a.Products.Load()
+	a.Users.Load()
+	a.Users.SetCurrentUser()
+
+	var procs []app.Processor
+	procs = append(procs, app.NewBuildOrderProcess(a))
+	procs = append(procs, app.NewExitProcess(a))
+
+	a.Run(procs)
 }
