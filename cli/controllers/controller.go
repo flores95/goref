@@ -1,6 +1,15 @@
 package controllers
 
-import "github.com/flores95/golang-curriculum-c-5/cli/models"
+import (
+	"github.com/flores95/golang-curriculum-c-5/cli/frameworks"
+	"github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
+	"github.com/flores95/golang-curriculum-c-5/cli/models"
+)
+
+type Controller interface {
+	frameworks.Nameable
+	logging.Loggable
+}
 
 //UserController interface defines the connection to a Product service
 type UserController interface {

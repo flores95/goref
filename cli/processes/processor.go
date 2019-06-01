@@ -1,7 +1,6 @@
-package app
+package processes
 
 type Processor interface {
 	Do()
 	GetName() string
-	GetApp() App
 }

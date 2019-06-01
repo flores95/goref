@@ -1,4 +1,4 @@
-package app
+package processes
 
 import (
 	"fmt"
@@ -6,18 +6,27 @@ import (
 	"strings"
 
 	"github.com/c-bata/go-prompt"
+	"github.com/flores95/golang-curriculum-c-5/cli/controllers"
 	"github.com/flores95/golang-curriculum-c-5/cli/models"
 )
 
 type BuildOrderProcess struct {
 	name string
-	app  App
+	orders controllers.OrderController
+	products controllers.ProductController
+	users controllers.UserController
 }
 
-func NewBuildOrderProcess(a App) Processor {
+func NewBuildOrderProcess(
+	oc controllers.OrderController,
+	pc controllers.ProductController,
+	uc controllers.UserController,
+) Processor {
 	proc := BuildOrderProcess{}
 	proc.name = "Order Products"
-	proc.app = a
+	proc.orders = oc
+	proc.products = pc
+	proc.users = uc
 	return proc
 }
 
@@ -30,12 +39,8 @@ func (proc BuildOrderProcess) GetName() string {
 	return proc.name
 }
 
-func (proc BuildOrderProcess) GetApp() App {
-	return proc.app
-}
-
 func (proc BuildOrderProcess) productFromPrompt(prompt string) (product models.Product) {
-	for _, p := range proc.app.Products.GetAll() {
+	for _, p := range proc.products.GetAll() {
 		if p.UPC == strings.Split(prompt, " :: ")[1] {
 			product = p
 			return product
@@ -49,7 +54,7 @@ func (proc BuildOrderProcess) productsCompleter(in prompt.Document) []prompt.Sug
 		{Text: "x", Description: "Complete your order"},
 	}
 
-	for _, p := range proc.GetApp().Products.GetAll() {
+	for _, p := range proc.products.GetAll() {
 		s = append(s, prompt.Suggest{Text: p.String(), Description: p.Description})
 	}
 
@@ -57,8 +62,7 @@ func (proc BuildOrderProcess) productsCompleter(in prompt.Document) []prompt.Sug
 }
 
 func (proc BuildOrderProcess) Do() {
-	a := proc.GetApp()
-	u := a.Users.GetCurrentUser()
+	u := proc.users.GetCurrentUser()
 	fmt.Printf("%v, what would you like to order?\n", u.Name)
 
 	var o models.Order
@@ -78,7 +82,7 @@ func (proc BuildOrderProcess) Do() {
 	resp := prompt.Input("Would you like to place this order now?", emptyCompleter)
 
 	if resp == "yes" {
-		newOrder := a.Orders.PlaceOrder(o)
+		newOrder := proc.orders.PlaceOrder(o)
 		fmt.Printf("Thank you %v, the following order has been placed for you:\n%v\n", u.Name, newOrder)
 	}
 }

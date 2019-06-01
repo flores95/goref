@@ -40,6 +40,14 @@ func (level LogLevel) String() string {
 	return names[level]
 }
 
+func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
+	event.Time = time.Now()
+	event.Level = level
+	event.Context = ctx
+	event.Details = detail
+	return event
+}
+
 func (e LogEvent) String() string {
 	return fmt.Sprintf("%v :: %v :: %v\n\t%v", e.Time, e.Level, e.Context, e.Details)
 }

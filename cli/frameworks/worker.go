@@ -1,10 +1,12 @@
 package frameworks
 
-import "github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
+import (
+	"github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
+)
 
 type Worker interface {
-	GetName() string
-	GetType() string
+	Nameable
+	Typeable
 	logging.Loggable
 }
 
@@ -15,6 +17,7 @@ const (
 	Logging = 1
 	Metrics = 2
 	Storage = 3
+	Auth    = 4
 )
 
 func (wt WorkerType) String() string {
@@ -23,6 +26,7 @@ func (wt WorkerType) String() string {
 		"Logging",
 		"Metrics",
 		"Storage",
+		"Auth",
 	}
 	return names[wt]
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-//Product model for displaying available products
 type Product struct {
 	UPC         string
 	Name        string
