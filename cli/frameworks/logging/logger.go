@@ -9,6 +9,11 @@ type Logger interface {
 	Log(LogEvent)
 }
 
+type Loggable interface {
+	SetLogger(Logger)
+	GetLogger() Logger
+}
+
 type LogEvent struct {
 	Level   LogLevel
 	Time    time.Time

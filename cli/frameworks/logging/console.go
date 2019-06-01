@@ -6,9 +6,9 @@ type ConsoleLogger struct {
 }
 
 func NewConsoleLogger() Logger {
-	return FileLogger{}
+	return ConsoleLogger{}
 }
 
-func (l FileLogger) Log(le LogEvent) {
+func (l ConsoleLogger) Log(le LogEvent) {
 	fmt.Println(le)
 }
