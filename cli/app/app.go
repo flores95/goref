@@ -4,38 +4,36 @@ import (
 	"fmt"
 
 	"github.com/c-bata/go-prompt"
-	"github.com/flores95/golang-curriculum-c-5/cli/frameworks"
+	"github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
 	"github.com/flores95/golang-curriculum-c-5/cli/processes"
 )
 
 //App controls the application
 type App struct {
-	procs []processes.Processor
-	fws   []frameworks.Worker
+	logger           logging.Logger
+	interactiveProcs []processes.Processor
 }
 
-//NewApp creates a new application with injected controllers
+//NewApp creates a new application
 func NewApp(
-	procs []processes.Processor,
-	fws []frameworks.Worker,
+	l logging.Logger,
 ) (a App) {
-	a.procs = procs
-	a.fws = fws
+	a.logger = l
 	return a
 }
 
 func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 	s := []prompt.Suggest{}
 
-	for _, p := range a.procs {
+	for _, p := range a.interactiveProcs {
 		s = append(s, prompt.Suggest{Text: p.Name(), Description: ""})
 	}
 
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
-func (a App) GetProcessorByName(n string) (proc processes.Processor) {
-	for _, p := range a.procs {
+func (a App) GetProcessorByName(procs []processes.Processor, n string) (proc processes.Processor) {
+	for _, p := range procs {
 		if p.Name() == n {
 			proc = p
 			return proc
@@ -44,14 +42,27 @@ func (a App) GetProcessorByName(n string) (proc processes.Processor) {
 	return proc
 }
 
-func (a *App) Run() {
-	// fmt.Printf("Welcome, %v!\n", a.Users.GetCurrentUser())
+func (a *App) RunInteractive(procs []processes.Processor) {
+	a.interactiveProcs = procs
+
 	for {
 		fmt.Print(" What would you like to do now? ")
-		p := a.GetProcessorByName(prompt.Input("", a.processCompleter))
+		p := a.GetProcessorByName(procs, prompt.Input("", a.processCompleter))
 		p.Do()
 		if p.Name() == "Exit" {
 			break
 		}
+	}
+}
+
+func (a *App) RunAsync(procs []processes.Processor) {
+	for _, p := range procs {
+		go p.Do()
+	}
+}
+
+func (a *App) RunInOrder(procs []processes.Processor) {
+	for _, p := range procs {
+		p.Do()
 	}
 }

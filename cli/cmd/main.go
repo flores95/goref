@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/flores95/golang-curriculum-c-5/cli/app"
 	"github.com/flores95/golang-curriculum-c-5/cli/controllers"
-	"github.com/flores95/golang-curriculum-c-5/cli/frameworks"
 	"github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
 	"github.com/flores95/golang-curriculum-c-5/cli/processes"
 )
@@ -14,7 +13,6 @@ func main() {
 
 	l := logging.NewConsoleLogger()
 	l.Log(logging.NewLogEvent(logLevel, "MAIN", "Hey dude this works"))
-	fws := []frameworks.Worker{}
 
 	// business logic handlers
 	products := controllers.NewCLIProductController() // inject a framework data loader here (API / DB / JSON / CSV ???)
@@ -39,6 +37,6 @@ func main() {
 	procs = append(procs, processes.NewExitProcess())
 
 	// compose it all together and run
-	a := app.NewApp(procs, fws)
-	a.Run()
+	a := app.NewApp(l)
+	a.RunInteractive(procs)
 }

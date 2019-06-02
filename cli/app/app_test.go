@@ -38,24 +38,20 @@ func createMockWorkers() []frameworks.Worker {
 }
 
 func TestNewApp(t *testing.T) {
-	procs := createMockProcesses()
-	fws := createMockWorkers()
+	logger := new(logging.MockLogger)
 
 	tests := []struct {
 		name  string
 		wantA App
 	}{
 		{
-			name: "NewApp should take processes and workers and create a new App",
-			wantA: App{
-				procs: procs,
-				fws:   fws,
-			},
+			name:  "NewApp should create app with injected logger",
+			wantA: App{logger: logger},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotA := NewApp(procs, fws); !reflect.DeepEqual(gotA, tt.wantA) {
+			if gotA := NewApp(logger); !reflect.DeepEqual(gotA, tt.wantA) {
 				t.Errorf("NewApp() = %v, want %v", gotA, tt.wantA)
 			}
 		})
@@ -64,24 +60,26 @@ func TestNewApp(t *testing.T) {
 
 func TestApp_GetProcessorByName(t *testing.T) {
 	procs := createMockProcesses()
-	fws := createMockWorkers()
+	logger := new(logging.MockLogger)
 
 	tests := []struct {
 		name     string
 		a        App
+		procs    []processes.Processor
 		n        string
 		wantProc processes.Processor
 	}{
 		{
 			name:     "Should be able to retrieve processor by name",
-			a:        NewApp(procs, fws),
+			a:        NewApp(logger),
+			procs:    procs,
 			n:        "Mock Processor",
 			wantProc: procs[0],
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotProc := tt.a.GetProcessorByName(tt.n); !reflect.DeepEqual(gotProc, tt.wantProc) {
+			if gotProc := tt.a.GetProcessorByName(tt.procs, tt.n); !reflect.DeepEqual(gotProc, tt.wantProc) {
 				t.Errorf("App.GetProcessorByName() = %v, want %v", gotProc, tt.wantProc)
 			}
 		})
