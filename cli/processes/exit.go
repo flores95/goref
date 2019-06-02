@@ -10,7 +10,7 @@ func NewExitProcess() Processor {
 	return proc
 }
 
-func (proc ExitProcess) GetName() string {
+func (proc ExitProcess) Name() string {
 	return proc.name
 }
 

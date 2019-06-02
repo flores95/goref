@@ -11,10 +11,10 @@ import (
 )
 
 type BuildOrderProcess struct {
-	name string
-	orders controllers.OrderController
+	name     string
+	orders   controllers.OrderController
 	products controllers.ProductController
-	users controllers.UserController
+	users    controllers.UserController
 }
 
 func NewBuildOrderProcess(
@@ -35,7 +35,7 @@ func emptyCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
-func (proc BuildOrderProcess) GetName() string {
+func (proc BuildOrderProcess) Name() string {
 	return proc.name
 }
 

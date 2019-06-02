@@ -28,7 +28,7 @@ func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 	s := []prompt.Suggest{}
 
 	for _, p := range a.procs {
-		s = append(s, prompt.Suggest{Text: p.GetName(), Description: ""})
+		s = append(s, prompt.Suggest{Text: p.Name(), Description: ""})
 	}
 
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
@@ -36,7 +36,7 @@ func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 
 func (a App) GetProcessorByName(n string) (proc processes.Processor) {
 	for _, p := range a.procs {
-		if p.GetName() == n {
+		if p.Name() == n {
 			proc = p
 			return proc
 		}
@@ -50,7 +50,7 @@ func (a *App) Run() {
 		fmt.Print(" What would you like to do now? ")
 		p := a.GetProcessorByName(prompt.Input("", a.processCompleter))
 		p.Do()
-		if p.GetName() == "Exit" {
+		if p.Name() == "Exit" {
 			break
 		}
 	}
