@@ -1,24 +1,17 @@
-# Challenge #5
+# go reference
 
-The system needs to do the following things:
+This repository contains a set of services and a command line app that demonstrate features of the go language. You'll find references below on where different features of go are being used. You'll also find descriptions of the design/architectural patterns that are in use. Please see the READMEs in each cli and service directories for descriptions of each. 
 
-- Accept an order with a users contact information
-- Have the ability to retrieve the users order history
-- Create a PDF receipt that gets stored in a directory and a base64 encoded string of that file
-- Stretch goal: Create a little frontend for this
+## go features
 
-```golang
-type Order struct {
-	Items           []Item
-	UserEmail       string
-	UserName        string
-	UserPhonenumber string
-}
+### interfaces
 
-type Item struct {
-	ItemUPC  string
-	Quantity int
-}
-```
+### go routines
 
-This may come in handy: github.com/jung-kurt/gofpdf
+### structs
+
+### functions
+
+### packages
+
+### unit testing / mocking
