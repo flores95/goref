@@ -14,8 +14,10 @@ type Controller interface {
 //UserController interface defines the connection to a Product service
 type UserController interface {
 	Load()
+	GetUserFromEmail(string) models.User
+	GetAll() []models.User
 	GetCurrentUser() models.User
-	SetCurrentUser()
+	SetCurrentUser(models.User)
 }
 
 //ProductController interface defines the connection to a Product service

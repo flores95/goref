@@ -25,18 +25,22 @@ func main() {
 	orders.Load()
 
 	//TODO move this to a process
-	users.SetCurrentUser()
+	var oProcs []processes.Processor
+	oProcs = append(oProcs, processes.NewAuthenticateProcess(
+		users,
+	))
 
 	// application flow processors
-	var procs []processes.Processor
-	procs = append(procs, processes.NewBuildOrderProcess(
+	var iProcs []processes.Processor
+	iProcs = append(iProcs, processes.NewBuildOrderProcess(
 		orders,
 		products,
 		users,
 	))
-	procs = append(procs, processes.NewExitProcess())
+	iProcs = append(iProcs, processes.NewExitProcess())
 
 	// compose it all together and run
 	a := app.NewApp(l)
-	a.RunInteractive(procs)
+	a.RunInOrder(oProcs)
+	a.RunInteractive(iProcs)
 }
