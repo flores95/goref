@@ -1,6 +1,8 @@
 package processes
 
 import (
+	"fmt"
+
 	"github.com/c-bata/go-prompt"
 	"github.com/flores95/goref/cli/controllers"
 	"github.com/flores95/goref/cli/models"
@@ -36,6 +38,16 @@ func (proc AuthenticateProcess) Name() string {
 }
 
 func (proc AuthenticateProcess) Do() {
-	proc.user = proc.users.GetUserFromEmail(prompt.Input("USER: ", proc.completer))
+	var u models.User
+	for {
+		e := prompt.Input("USER: ", proc.completer)
+		u = proc.users.GetUserFromEmail(e)
+		if u.Email != "" {
+			proc.user = u
+			break
+		}
+	}
+
+	fmt.Printf("Welcome %v!\n", proc.user.Name)
 	proc.users.SetCurrentUser(proc.user)
 }

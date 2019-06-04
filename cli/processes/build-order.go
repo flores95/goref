@@ -41,7 +41,8 @@ func (proc BuildOrderProcess) Name() string {
 
 func (proc BuildOrderProcess) productFromPrompt(prompt string) (product models.Product) {
 	for _, p := range proc.products.GetAll() {
-		if p.UPC == strings.Split(prompt, " :: ")[1] {
+		parsedInput := strings.Split(prompt, " :: ")
+		if len(parsedInput) > 1 && p.UPC == parsedInput[1] {
 			product = p
 			return product
 		}
@@ -73,9 +74,11 @@ func (proc BuildOrderProcess) Do() {
 		}
 		item := proc.productFromPrompt(sel)
 
-		qs := prompt.Input(fmt.Sprintf("How many %v would you like?", item.Name), emptyCompleter)
-		qty, _ := strconv.Atoi(qs)
-		o.Items = append(o.Items, models.Item{ItemUPC: item.UPC, Quantity: qty})
+		if item.UPC != "" {
+			qs := prompt.Input(fmt.Sprintf("How many %v would you like?", item.Name), emptyCompleter)
+			qty, _ := strconv.Atoi(qs)
+			o.Items = append(o.Items, models.Item{ItemUPC: item.UPC, Quantity: qty})
+		}
 	}
 	fmt.Println("Your order:")
 	fmt.Println(o)
