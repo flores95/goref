@@ -9,10 +9,8 @@ import (
 
 func main() {
 	// framework stuff
-	logLevel := logging.Debug
-
 	l := logging.NewConsoleLogger()
-	l.Log(logging.NewLogEvent(logLevel, "MAIN", "Hey dude this works"))
+	l.SetLevel(logging.Debug)
 
 	// business logic handlers
 	products := controllers.NewCLIProductController() // inject a framework data loader here (API / DB / JSON / CSV ???)

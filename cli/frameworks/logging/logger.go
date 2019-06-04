@@ -7,6 +7,7 @@ import (
 
 type Logger interface {
 	Log(LogEvent)
+	SetLevel(LogLevel)
 }
 
 type Loggable interface {
@@ -24,14 +25,16 @@ type LogEvent struct {
 type LogLevel int
 
 const (
-	Debug   LogLevel = 0
-	Error   LogLevel = 1
-	Warning LogLevel = 2
-	Info    LogLevel = 3
+	Unassigned LogLevel = 0
+	Debug      LogLevel = 1
+	Error      LogLevel = 2
+	Warning    LogLevel = 3
+	Info       LogLevel = 4
 )
 
 func (level LogLevel) String() string {
 	names := [...]string{
+		"Unassigned",
 		"Debug",
 		"Error",
 		"Warning",
@@ -49,5 +52,5 @@ func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
 }
 
 func (e LogEvent) String() string {
-	return fmt.Sprintf("%v :: %v :: %v\n\t%v", e.Time, e.Level, e.Context, e.Details)
+	return fmt.Sprintf("%v :: %v :: %v\n\t%v", e.Time.Local(), e.Level, e.Context, e.Details)
 }
