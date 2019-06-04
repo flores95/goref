@@ -8,8 +8,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/flores95/golang-curriculum-c-5/products/product"
-	"github.com/flores95/golang-curriculum-c-5/products/repo"
+	"github.com/flores95/goref/services/products/product"
+	"github.com/flores95/goref/services/products/repo"
 )
 
 var store = repo.Repo{}

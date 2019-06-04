@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/golang-curriculum-c-5/users/user"
+	"github.com/flores95/goref/services/users/user"
 )
 
 func Test_Insert(t *testing.T) {

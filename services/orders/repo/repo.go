@@ -3,7 +3,7 @@ package repo
 import (
 	"fmt"
 
-	"github.com/flores95/golang-curriculum-c-5/orders/order"
+	"github.com/flores95/goref/services/orders/order"
 )
 
 //Repo is the data store for the orders microservice

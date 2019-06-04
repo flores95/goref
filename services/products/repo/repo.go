@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/flores95/golang-curriculum-c-5/products/product"
+	"github.com/flores95/goref/services/products/product"
 )
 
 //Repo is the data store for the products microservice

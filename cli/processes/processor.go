@@ -1,6 +1,6 @@
 package processes
 
-import "github.com/flores95/golang-curriculum-c-5/cli/frameworks"
+import "github.com/flores95/goref/cli/frameworks"
 
 type Processor interface {
 	Do()

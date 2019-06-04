@@ -1,3 +1,3 @@
-module github.com/gSchool/golang-curriculum-c-5
+module github.com/gSchool/goref
 
 go 1.12

@@ -1,6 +1,6 @@
 package repo
 
-import "github.com/flores95/golang-curriculum-c-5/users/user"
+import "github.com/flores95/goref/services/users/user"
 
 //Repo is the data store for the user microservice
 type Repo struct {

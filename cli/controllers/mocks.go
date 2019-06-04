@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/flores95/golang-curriculum-c-5/cli/models"
+import "github.com/flores95/goref/cli/models"
 
 type MockProductController struct {
 }

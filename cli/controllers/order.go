@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/flores95/golang-curriculum-c-5/cli/models"
+	"github.com/flores95/goref/cli/models"
 )
 
 type CLIOrderController struct {

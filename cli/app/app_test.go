@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/golang-curriculum-c-5/cli/frameworks"
-	"github.com/flores95/golang-curriculum-c-5/cli/frameworks/logging"
-	"github.com/flores95/golang-curriculum-c-5/cli/processes"
+	"github.com/flores95/goref/cli/frameworks"
+	"github.com/flores95/goref/cli/frameworks/logging"
+	"github.com/flores95/goref/cli/processes"
 )
 
 func createMockProcesses() []processes.Processor {
