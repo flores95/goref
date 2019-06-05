@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/flores95/goref/cli/app"
 	"github.com/flores95/goref/cli/controllers"
-	"github.com/flores95/goref/cli/frameworks/logging"
 	"github.com/flores95/goref/cli/processes"
+	"github.com/flores95/goref/frameworks/logging"
 )
 
 func main() {

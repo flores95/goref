@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/goref/cli/frameworks"
-	"github.com/flores95/goref/cli/frameworks/logging"
+	"github.com/flores95/goref/frameworks"
+	"github.com/flores95/goref/frameworks/logging"
 	"github.com/flores95/goref/cli/processes"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/c-bata/go-prompt"
-	"github.com/flores95/goref/cli/frameworks/logging"
+	"github.com/flores95/goref/frameworks/logging"
 	"github.com/flores95/goref/cli/processes"
 )
 

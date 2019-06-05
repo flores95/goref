@@ -1,7 +1,7 @@
 package frameworks
 
 import (
-	"github.com/flores95/goref/cli/frameworks/logging"
+	"github.com/flores95/goref/frameworks/logging"
 )
 
 type Worker interface {
