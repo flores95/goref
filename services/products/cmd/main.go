@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/flores95/goref/frameworks/config"
 	"github.com/flores95/goref/services/products/product"
 	"github.com/flores95/goref/services/products/repo"
 )
@@ -38,11 +39,12 @@ func createProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println(":: PRODUCTS MICROSERVICE :: http://localhost:4182")
+	l := config.NewDotenvConfigurator()
+	fmt.Printf(":: PRODUCTS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PRODUCTS_PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO PRODUCTS LOADED ::\n", len(store.GetAll()))
 	r := mux.NewRouter()
 	r.HandleFunc("/products", allProducts).Methods("GET")
 	r.HandleFunc("/products", createProduct).Methods("POST")
-	http.ListenAndServe(":4182", r)
+	http.ListenAndServe(":"+l.GetValue("PRODUCTS_PORT"), r)
 }

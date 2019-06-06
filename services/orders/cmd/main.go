@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/flores95/goref/frameworks/config"
 	"github.com/flores95/goref/services/orders/order"
 	"github.com/flores95/goref/services/orders/repo"
 )
@@ -56,10 +57,11 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println(":: ORDERS MICROSERVICE :: http://localhost:4181")
+	l := config.NewDotenvConfigurator()
+	fmt.Printf(":: ORDERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("ORDERS_PORT"))
 	r := mux.NewRouter()
 	r.HandleFunc("/orders", allOrders).Methods("GET")
 	r.HandleFunc("/orders/find", findOrders).Methods("POST")
 	r.HandleFunc("/orders", createOrder).Methods("POST")
-	http.ListenAndServe(":4181", r)
+	http.ListenAndServe(":"+l.GetValue("ORDERS_PORT"), r)
 }

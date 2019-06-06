@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/flores95/goref/frameworks/config"
+
 	"github.com/gorilla/mux"
 
 	"github.com/flores95/goref/services/users/repo"
@@ -36,11 +38,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println(":: USERS MICROSERVICE :: http://localhost:4180")
+	l := config.NewDotenvConfigurator()
+	fmt.Printf(":: USERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("USERS_PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.GetAll()))
 	r := mux.NewRouter()
 	r.HandleFunc("/users", allUsers).Methods("GET")
 	r.HandleFunc("/users", createUser).Methods("POST")
-	http.ListenAndServe(":4180", r)
+	http.ListenAndServe(":"+l.GetValue("USERS_PORT"), r)
 }
