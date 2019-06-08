@@ -7,15 +7,24 @@ import (
 	"net/http"
 
 	"github.com/flores95/goref/cli/models"
+	"github.com/flores95/goref/frameworks/config"
 )
 
 type UserController struct {
 	users       []models.User
 	currentUser models.User
+	endpoint    string
+	cfg         config.Configurator
 }
 
-func NewUserController() *UserController {
-	return &UserController{}
+func NewUserController(cfg config.Configurator) *UserController {
+	c := new(UserController)
+	c.cfg = cfg
+	c.endpoint = "http://localhost:4180/users"
+	if e := cfg.GetValue("USERS_EP"); e != "" {
+		c.endpoint = e
+	}
+	return c
 }
 
 func (c *UserController) Load() {
