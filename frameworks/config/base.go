@@ -17,6 +17,9 @@ func (c *BaseConfigurator) GetNamespace() string {
 
 func (c *BaseConfigurator) GetValue(key string) (value string) {
 	value = c.kvs[key]
+	if nsv := c.kvs[c.namespace+key]; nsv != "" {
+		value = nsv
+	}
 	return value
 }
 

@@ -5,26 +5,30 @@ import (
 )
 
 type DotenvConfigurator struct {
-	kvs KVS
-	namespace string
+	base Configurator
 }
 
 func NewDotenvConfigurator(ns string) Configurator {
-	var c DotenvConfigurator = DotenvConfigurator{}
-	c.kvs, _ = godotenv.Read() // will load setting from .env file
-	c.namespace = ns
-	return &c
+	c := new(DotenvConfigurator)
+	c.base = NewBaseConfigurator(ns)
+	c.readEnv()
+	return c
 }
 
 func (c *DotenvConfigurator) GetNamespace() string {
-	return c.namespace
+	return c.base.GetNamespace()
 }
 
 func (c *DotenvConfigurator) GetValue(key string) (value string) {
-	value = c.kvs[key]
+	value = c.base.GetValue(key)
 	return value
 }
 
 func (c *DotenvConfigurator) Load(kvs KVS) {
-	c.kvs = kvs
+	c.base.Load(kvs)
+}
+
+func (c *DotenvConfigurator) readEnv() {
+	kvs, _ := godotenv.Read() // will load setting from .env file
+	c.base.Load(kvs)
 }

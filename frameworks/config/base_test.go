@@ -40,24 +40,42 @@ func TestBaseConfigurator_GetNamespace(t *testing.T) {
 }
 
 func TestBaseConfigurator_GetValue(t *testing.T) {
-	conf := NewBaseConfigurator("")
-	conf.Load(KVS{"testkey": "testkey-value"})
+	cfg := NewBaseConfigurator("NS_")
 	tests := []struct {
 		name string
-		c    Configurator
+		kvs  KVS
 		key  string
 		want string
 	}{
 		{
 			name: "Given a key return it's value",
-			c:    conf,
+			kvs:  KVS{"testkey": "testkey-value"},
+			key:  "testkey",
+			want: "testkey-value",
+		},
+		{
+			name: "Return the value of a key without specifying a namespace",
+			kvs:  KVS{"NS_testkey": "testkey-value"},
+			key:  "testkey",
+			want: "testkey-value",
+		},
+		{
+			name: "Return the value of a namespaced key over a non-namespced key",
+			kvs:  KVS{"NS_testkey": "testkey-value", "testkey": "wrong-value"},
+			key:  "testkey",
+			want: "testkey-value",
+		},
+		{
+			name: "Return a non namespace value of a key if one with namespace is not present",
+			kvs:  KVS{"NS_wrongkey": "wrong-value", "testkey": "testkey-value"},
 			key:  "testkey",
 			want: "testkey-value",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.c.GetValue(tt.key); got != tt.want {
+			cfg.Load(tt.kvs)
+			if got := cfg.GetValue(tt.key); got != tt.want {
 				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
 			}
 		})

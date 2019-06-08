@@ -6,16 +6,16 @@ import (
 )
 
 func TestNewDotenvConfigurator(t *testing.T) {
-	wanted := DotenvConfigurator{kvs: KVS{}}
 	tests := []struct {
 		name string
-		want Configurator
+		want reflect.Type
 	}{
-		{name: "Can create a new DotenvConfigurator", want: &wanted},
+		{name: "Can create a new DotenvConfigurator", want: reflect.TypeOf(new(DotenvConfigurator))},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewDotenvConfigurator(""); !reflect.DeepEqual(got, tt.want) {
+			c := NewDotenvConfigurator("")
+			if got := reflect.TypeOf(c); got != tt.want {
 				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
 			}
 		})
