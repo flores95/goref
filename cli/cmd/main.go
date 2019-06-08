@@ -28,15 +28,15 @@ func main() {
 	// in order processes
 	var oProcs []processes.Processor
 	oProcs = append(oProcs, processes.NewAuthenticateProcess(
-		users,
+		*users,
 	))
 
 	// application flow processors
 	var iProcs []processes.Processor
 	iProcs = append(iProcs, processes.NewBuildOrderProcess(
-		orders,
-		products,
-		users,
+		*orders,
+		*products,
+		*users,
 	))
 	iProcs = append(iProcs, processes.NewExitProcess())
 
