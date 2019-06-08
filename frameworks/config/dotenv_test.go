@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewDotenvConfigurator(t *testing.T) {
-	wanted := DotenvConfigurator{kvs: map[string]string{}}
+	wanted := DotenvConfigurator{kvs: KVS{}}
 	tests := []struct {
 		name string
 		want Configurator
@@ -42,7 +42,7 @@ func TestDotenvConfigurator_GetNamespace(t *testing.T) {
 
 func TestDotenvConfigurator_GetValue(t *testing.T) {
 	conf := NewDotenvConfigurator("")
-	conf.Load(map[string]string{"testkey": "testkey-value"})
+	conf.Load(KVS{"testkey": "testkey-value"})
 	tests := []struct {
 		name string
 		c    Configurator
@@ -67,11 +67,11 @@ func TestDotenvConfigurator_GetValue(t *testing.T) {
 
 func TestDotenvConfigurator_Load(t *testing.T) {
 	conf := NewDotenvConfigurator("")
-	kvs := map[string]string{"testkey": "testkey-value"}
+	kvs := KVS{"testkey": "testkey-value"}
 	tests := []struct {
 		name string
 		c    Configurator
-		kvs  map[string]string
+		kvs  KVS
 	}{
 		{name: "can load a key value map", c: conf, kvs: kvs},
 	}

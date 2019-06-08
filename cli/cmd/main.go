@@ -16,16 +16,16 @@ func main() {
 	l.SetLevel(logging.NewLogLevel(ll))
 
 	// business logic handlers
-	products := controllers.NewCLIProductController() // inject a framework data loader here (API / DB / JSON / CSV ???)
-	users := controllers.NewCLIUserController()
-	orders := controllers.NewCLIOrderController()
+	products := controllers.NewCLIProductController(c)
+	users := controllers.NewCLIUserController(c)
+	orders := controllers.NewCLIOrderController(c)
 
 	//TODO move this into the constructor
 	products.Load()
 	users.Load()
 	orders.Load()
 
-	//TODO move this to a process
+	// in order processes
 	var oProcs []processes.Processor
 	oProcs = append(oProcs, processes.NewAuthenticateProcess(
 		users,

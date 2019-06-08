@@ -41,7 +41,7 @@ func TestBaseConfigurator_GetNamespace(t *testing.T) {
 
 func TestBaseConfigurator_GetValue(t *testing.T) {
 	conf := NewBaseConfigurator("")
-	conf.Load(map[string]string{"testkey": "testkey-value"})
+	conf.Load(KVS{"testkey": "testkey-value"})
 	tests := []struct {
 		name string
 		c    Configurator
@@ -66,11 +66,11 @@ func TestBaseConfigurator_GetValue(t *testing.T) {
 
 func TestBaseConfigurator_Load(t *testing.T) {
 	conf := NewBaseConfigurator("")
-	kvs := map[string]string{"testkey": "testkey-value"}
+	kvs := KVS{"testkey": "testkey-value"}
 	tests := []struct {
 		name string
 		c    Configurator
-		kvs  map[string]string
+		kvs  KVS
 	}{
 		{name: "can load a key value map", c: conf, kvs: kvs},
 	}

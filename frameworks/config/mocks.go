@@ -2,9 +2,9 @@ package config
 
 type MockConfigurator struct {
 	namespace       string
-	kvs             map[string]string
+	kvs             KVS
 	LoadInvoked     bool
-	LoadFunc        func(map[string]string)
+	LoadFunc        func(KVS)
 	GetValueInvoked bool
 	GetValueFunc    func(string) string
 }
@@ -18,7 +18,7 @@ func (m *MockConfigurator) GetValue(k string) string {
 	return m.GetValueFunc(k)
 }
 
-func (m *MockConfigurator) Load(kvs map[string]string) {
+func (m *MockConfigurator) Load(kvs KVS) {
 	m.LoadInvoked = true
 	m.Load(kvs)
 }

@@ -5,7 +5,7 @@ import (
 )
 
 type DotenvConfigurator struct {
-	kvs map[string]string
+	kvs KVS
 	namespace string
 }
 
@@ -25,6 +25,6 @@ func (c *DotenvConfigurator) GetValue(key string) (value string) {
 	return value
 }
 
-func (c *DotenvConfigurator) Load(kvs map[string]string) {
+func (c *DotenvConfigurator) Load(kvs KVS) {
 	c.kvs = kvs
 }

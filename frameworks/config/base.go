@@ -1,7 +1,7 @@
 package config
 
 type BaseConfigurator struct {
-	kvs       map[string]string
+	kvs       KVS
 	namespace string
 }
 
@@ -20,6 +20,6 @@ func (c *BaseConfigurator) GetValue(key string) (value string) {
 	return value
 }
 
-func (c *BaseConfigurator) Load(kvs map[string]string) {
+func (c *BaseConfigurator) Load(kvs KVS) {
 	c.kvs = kvs
 }

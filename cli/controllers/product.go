@@ -7,14 +7,23 @@ import (
 	"net/http"
 
 	"github.com/flores95/goref/cli/models"
+	"github.com/flores95/goref/frameworks/config"
 )
 
 type CLIProductController struct {
 	products []models.Product
+	endpoint string
+	cfg      config.Configurator
 }
 
-func NewCLIProductController() *CLIProductController {
-	return &CLIProductController{}
+func NewCLIProductController(cfg config.Configurator) *CLIProductController {
+	c := new(CLIProductController)
+	c.cfg = cfg
+	c.endpoint = "http://localhost:4181/products"
+	if e := cfg.GetValue("PRODUCTS_EP"); e != "" {
+		c.endpoint = e
+	}
+	return c
 }
 
 func (c *CLIProductController) Load() {
@@ -23,7 +32,7 @@ func (c *CLIProductController) Load() {
 		return
 	}
 
-	resp, err := http.Get("http://localhost:4182/products")
+	resp, err := http.Get("http://localhost:4181/products")
 	if err != nil {
 	}
 
