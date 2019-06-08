@@ -48,7 +48,6 @@ func NewLogger(c config.Configurator) Logger {
 		l = NewConsoleLogger(c)
 	case "FILE":
 		l = NewFileLogger(c)
-		l = NewMockLogger(c)
 	default:
 		l = NewConsoleLogger(c)
 	}
