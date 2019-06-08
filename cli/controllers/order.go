@@ -9,19 +9,19 @@ import (
 	"github.com/flores95/goref/cli/models"
 )
 
-type CLIOrderController struct {
+type OrderController struct {
 	orders []models.Order
 }
 
-func NewCLIOrderController() *CLIOrderController {
-	return &CLIOrderController{}
+func NewOrderController() *OrderController {
+	return &OrderController{}
 }
 
-func (c *CLIOrderController) Load() {
+func (c *OrderController) Load() {
 	return
 }
 
-func (c *CLIOrderController) PlaceOrder(o models.Order) models.Order {
+func (c *OrderController) PlaceOrder(o models.Order) models.Order {
 	j, _ := json.Marshal(o)
 	resp, _ := http.Post("http://localhost:4181/orders", "application/json", bytes.NewBuffer(j))
 

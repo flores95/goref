@@ -9,16 +9,16 @@ import (
 	"github.com/flores95/goref/cli/models"
 )
 
-type CLIUserController struct {
+type UserController struct {
 	users       []models.User
 	currentUser models.User
 }
 
-func NewCLIUserController() *CLIUserController {
-	return &CLIUserController{}
+func NewUserController() *UserController {
+	return &UserController{}
 }
 
-func (c *CLIUserController) Load() {
+func (c *UserController) Load() {
 	if len(c.users) > 0 {
 		fmt.Println(":: Users loaded from cache")
 		return
@@ -40,11 +40,11 @@ func (c *CLIUserController) Load() {
 	c.users = users
 }
 
-func (c CLIUserController) GetAll() []models.User {
+func (c UserController) GetAll() []models.User {
 	return c.users
 }
 
-func (c CLIUserController) GetUserFromEmail(e string) (user models.User) {
+func (c UserController) GetUserFromEmail(e string) (user models.User) {
 	for _, u := range c.users {
 		if u.Email == e {
 			user = u
@@ -54,10 +54,10 @@ func (c CLIUserController) GetUserFromEmail(e string) (user models.User) {
 	return user
 }
 
-func (c *CLIUserController) GetCurrentUser() models.User {
+func (c *UserController) GetCurrentUser() models.User {
 	return c.currentUser
 }
 
-func (c *CLIUserController) SetCurrentUser(u models.User) {
-	c.currentUser = u 
+func (c *UserController) SetCurrentUser(u models.User) {
+	c.currentUser = u
 }

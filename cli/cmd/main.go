@@ -16,9 +16,9 @@ func main() {
 	l.SetLevel(logging.NewLogLevel(ll))
 
 	// business logic handlers
-	products := controllers.NewCLIProductController(c)
-	users := controllers.NewCLIUserController(c)
-	orders := controllers.NewCLIOrderController(c)
+	products := controllers.NewProductController(c)
+	users := controllers.NewUserController(c)
+	orders := controllers.NewOrderController(c)
 
 	//TODO move this into the constructor
 	products.Load()

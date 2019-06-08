@@ -7,7 +7,7 @@ import (
 	"github.com/flores95/goref/frameworks/config"
 )
 
-func TestNewCLIProductController(t *testing.T) {
+func TestNewProductController(t *testing.T) {
 	cfg := config.NewBaseConfigurator("")
 	tests := []struct {
 		name string
@@ -28,7 +28,7 @@ func TestNewCLIProductController(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			cfg.Load(tt.kvs)
-			pc := NewCLIProductController(cfg)
+			pc := NewProductController(cfg)
 			if got := pc.endpoint; !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
 			}

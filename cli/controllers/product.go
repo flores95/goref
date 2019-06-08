@@ -10,14 +10,14 @@ import (
 	"github.com/flores95/goref/frameworks/config"
 )
 
-type CLIProductController struct {
+type ProductController struct {
 	products []models.Product
 	endpoint string
 	cfg      config.Configurator
 }
 
-func NewCLIProductController(cfg config.Configurator) *CLIProductController {
-	c := new(CLIProductController)
+func NewProductController(cfg config.Configurator) *ProductController {
+	c := new(ProductController)
 	c.cfg = cfg
 	c.endpoint = "http://localhost:4181/products"
 	if e := cfg.GetValue("PRODUCTS_EP"); e != "" {
@@ -26,7 +26,7 @@ func NewCLIProductController(cfg config.Configurator) *CLIProductController {
 	return c
 }
 
-func (c *CLIProductController) Load() {
+func (c *ProductController) Load() {
 	if len(c.products) > 0 {
 		fmt.Println(":: Products loaded from cache")
 		return
@@ -48,6 +48,6 @@ func (c *CLIProductController) Load() {
 	c.products = products
 }
 
-func (c *CLIProductController) GetAll() []models.Product {
+func (c *ProductController) GetAll() []models.Product {
 	return c.products
 }
