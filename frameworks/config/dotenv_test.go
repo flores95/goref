@@ -15,40 +15,58 @@ func TestNewDotenvConfigurator(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewDotenvConfigurator(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewDotenvConfigurator() = %v, want %v", got, tt.want)
+			if got := NewDotenvConfigurator(""); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDotenvConfigurator_GetNamespace(t *testing.T) {
+	tests := []struct {
+		name      string
+		namespace string
+		want      string
+	}{
+		{name: "Configurator should set namespace in it's constructor", namespace: "TESTNS", want: "TESTNS"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cfg := NewDotenvConfigurator(tt.namespace)
+			if got := cfg.GetNamespace(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
 			}
 		})
 	}
 }
 
 func TestDotenvConfigurator_GetValue(t *testing.T) {
-	conf := NewDotenvConfigurator()
+	conf := NewDotenvConfigurator("")
 	conf.Load(map[string]string{"testkey": "testkey-value"})
 	tests := []struct {
-		name      string
-		c         Configurator
-		key       string
-		wantValue string
+		name string
+		c    Configurator
+		key  string
+		want string
 	}{
 		{
-			name:      "Given a key return it's value",
-			c:         conf,
-			key:       "testkey",
-			wantValue: "testkey-value",
+			name: "Given a key return it's value",
+			c:    conf,
+			key:  "testkey",
+			want: "testkey-value",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotValue := tt.c.GetValue(tt.key); gotValue != tt.wantValue {
-				t.Errorf("DotenvConfigurator.GetValue() = %v, want %v", gotValue, tt.wantValue)
+			if got := tt.c.GetValue(tt.key); got != tt.want {
+				t.Errorf("%v :: got = %v :: want %v", tt.name, got, tt.want)
 			}
 		})
 	}
 }
 
 func TestDotenvConfigurator_Load(t *testing.T) {
-	conf := NewDotenvConfigurator()
+	conf := NewDotenvConfigurator("")
 	kvs := map[string]string{"testkey": "testkey-value"}
 	tests := []struct {
 		name string

@@ -1,12 +1,17 @@
 package logging
 
+import "github.com/flores95/goref/frameworks/config"
+
 type FileLogger struct {
+	cfg      config.Configurator
 	fileName string
 	level    LogLevel
 }
 
-func NewFileLogger(fn string) Logger {
-	return FileLogger{fileName: fn}
+func NewFileLogger(c config.Configurator) Logger {
+	l := new(FileLogger)
+	l.cfg = c
+	return l
 }
 
 func (l FileLogger) Log(le LogEvent) {

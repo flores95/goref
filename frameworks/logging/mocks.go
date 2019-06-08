@@ -1,10 +1,16 @@
 package logging
 
+import "github.com/flores95/goref/frameworks/config"
+
 type MockLogger struct {
 	LogInvoked      bool
 	LogFunc         func(LogEvent)
 	SetLevelInvoked bool
 	SetLevelFunc    func(LogLevel)
+}
+
+func NewMockLogger(c config.Configurator) Logger {
+	return new(MockLogger)
 }
 
 func (m *MockLogger) Log(e LogEvent) {

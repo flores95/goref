@@ -4,13 +4,16 @@ import (
 	"github.com/flores95/goref/cli/app"
 	"github.com/flores95/goref/cli/controllers"
 	"github.com/flores95/goref/cli/processes"
+	"github.com/flores95/goref/frameworks/config"
 	"github.com/flores95/goref/frameworks/logging"
 )
 
 func main() {
 	// framework stuff
-	l := logging.NewConsoleLogger()
-	l.SetLevel(logging.Debug)
+	c := config.NewDotenvConfigurator("CLI_")
+	l := logging.NewLogger(c)
+	ll := c.GetValue("CLI_LOG_LEVEL")
+	l.SetLevel(logging.NewLogLevel(ll))
 
 	// business logic handlers
 	products := controllers.NewCLIProductController() // inject a framework data loader here (API / DB / JSON / CSV ???)

@@ -6,12 +6,18 @@ import (
 
 type DotenvConfigurator struct {
 	kvs map[string]string
+	namespace string
 }
 
-func NewDotenvConfigurator() Configurator {
+func NewDotenvConfigurator(ns string) Configurator {
 	var c DotenvConfigurator = DotenvConfigurator{}
 	c.kvs, _ = godotenv.Read() // will load setting from .env file
+	c.namespace = ns
 	return &c
+}
+
+func (c *DotenvConfigurator) GetNamespace() string {
+	return c.namespace
 }
 
 func (c *DotenvConfigurator) GetValue(key string) (value string) {
