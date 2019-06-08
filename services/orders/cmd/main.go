@@ -57,7 +57,7 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	l := config.NewDotenvConfigurator()
+	l := config.NewDotenvConfigurator("ORDERS_")
 	fmt.Printf(":: ORDERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("ORDERS_PORT"))
 	r := mux.NewRouter()
 	r.HandleFunc("/orders", allOrders).Methods("GET")

@@ -38,7 +38,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	l := config.NewDotenvConfigurator()
+	l := config.NewDotenvConfigurator("USERS_")
 	fmt.Printf(":: USERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("USERS_PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.GetAll()))

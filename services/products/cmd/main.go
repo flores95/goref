@@ -39,7 +39,7 @@ func createProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	l := config.NewDotenvConfigurator()
+	l := config.NewDotenvConfigurator("PRODUCTS_")
 	fmt.Printf(":: PRODUCTS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PRODUCTS_PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO PRODUCTS LOADED ::\n", len(store.GetAll()))
