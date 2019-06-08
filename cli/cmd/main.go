@@ -12,7 +12,7 @@ func main() {
 	// framework stuff
 	c := config.NewDotenvConfigurator("CLI_")
 	l := logging.NewLogger(c)
-	ll := c.GetValue("CLI_LOG_LEVEL")
+	ll := c.GetValue("LOG_LEVEL")
 	l.SetLevel(logging.NewLogLevel(ll))
 
 	// business logic handlers

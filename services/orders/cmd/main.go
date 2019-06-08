@@ -58,10 +58,10 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	l := config.NewDotenvConfigurator("ORDERS_")
-	fmt.Printf(":: ORDERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("ORDERS_PORT"))
+	fmt.Printf(":: ORDERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PORT"))
 	r := mux.NewRouter()
 	r.HandleFunc("/orders", allOrders).Methods("GET")
 	r.HandleFunc("/orders/find", findOrders).Methods("POST")
 	r.HandleFunc("/orders", createOrder).Methods("POST")
-	http.ListenAndServe(":"+l.GetValue("ORDERS_PORT"), r)
+	http.ListenAndServe(":"+l.GetValue("PORT"), r)
 }

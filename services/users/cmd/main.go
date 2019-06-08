@@ -39,11 +39,11 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	l := config.NewDotenvConfigurator("USERS_")
-	fmt.Printf(":: USERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("USERS_PORT"))
+	fmt.Printf(":: USERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.GetAll()))
 	r := mux.NewRouter()
 	r.HandleFunc("/users", allUsers).Methods("GET")
 	r.HandleFunc("/users", createUser).Methods("POST")
-	http.ListenAndServe(":"+l.GetValue("USERS_PORT"), r)
+	http.ListenAndServe(":"+l.GetValue("PORT"), r)
 }

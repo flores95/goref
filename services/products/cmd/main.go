@@ -40,11 +40,11 @@ func createProduct(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	l := config.NewDotenvConfigurator("PRODUCTS_")
-	fmt.Printf(":: PRODUCTS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PRODUCTS_PORT"))
+	fmt.Printf(":: PRODUCTS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PORT"))
 	store.LoadDemoData()
 	fmt.Printf(":: [%v] DEMO PRODUCTS LOADED ::\n", len(store.GetAll()))
 	r := mux.NewRouter()
 	r.HandleFunc("/products", allProducts).Methods("GET")
 	r.HandleFunc("/products", createProduct).Methods("POST")
-	http.ListenAndServe(":"+l.GetValue("PRODUCTS_PORT"), r)
+	http.ListenAndServe(":"+l.GetValue("PORT"), r)
 }
