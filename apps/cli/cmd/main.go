@@ -5,15 +5,16 @@ import (
 	"github.com/flores95/goref/apps/cli/processes"
 	"github.com/flores95/goref/apps/controllers"
 	"github.com/flores95/goref/frameworks/config"
-	"github.com/flores95/goref/frameworks/logging"
+	"github.com/flores95/goref/frameworks/log"
+	"github.com/flores95/goref/frameworks/process"
 )
 
 func main() {
 	// framework stuff
 	c := config.NewDotenvConfigurator("CLI_")
-	l := logging.NewLogger(c)
+	l := log.NewLogger(c)
 	ll := c.GetValue("LOG_LEVEL")
-	l.SetLevel(logging.NewLogLevel(ll))
+	l.SetLevel(log.NewLogLevel(ll))
 
 	// business logic handlers
 	products := controllers.NewProductController(c)
@@ -26,13 +27,13 @@ func main() {
 	orders.Load()
 
 	// in order processes
-	var oProcs []processes.Processor
+	var oProcs []process.Processor
 	oProcs = append(oProcs, processes.NewAuthenticateProcess(
 		*users,
 	))
 
 	// application flow processors
-	var iProcs []processes.Processor
+	var iProcs []process.Processor
 	iProcs = append(iProcs, processes.NewBuildOrderProcess(
 		*orders,
 		*products,

@@ -1,10 +1,12 @@
 package processes
 
+import "github.com/flores95/goref/frameworks/process"
+
 type ExitProcess struct {
 	name string
 }
 
-func NewExitProcess() Processor {
+func NewExitProcess() process.Processor {
 	proc := ExitProcess{}
 	proc.name = "Exit"
 	return proc

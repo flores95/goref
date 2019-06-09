@@ -6,6 +6,7 @@ import (
 	"github.com/c-bata/go-prompt"
 	"github.com/flores95/goref/apps/controllers"
 	"github.com/flores95/goref/apps/models"
+	"github.com/flores95/goref/frameworks/process"
 )
 
 type AuthenticateProcess struct {
@@ -16,7 +17,7 @@ type AuthenticateProcess struct {
 
 func NewAuthenticateProcess(
 	uc controllers.UserController,
-) Processor {
+) process.Processor {
 	proc := AuthenticateProcess{}
 	proc.name = "Authenicate User"
 	proc.users = uc

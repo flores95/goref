@@ -4,19 +4,19 @@ import (
 	"fmt"
 
 	"github.com/c-bata/go-prompt"
-	"github.com/flores95/goref/apps/cli/processes"
-	"github.com/flores95/goref/frameworks/logging"
+	"github.com/flores95/goref/frameworks/log"
+	"github.com/flores95/goref/frameworks/process"
 )
 
 //App controls the application
 type App struct {
-	logger           logging.Logger
-	interactiveProcs []processes.Processor
+	logger           log.Logger
+	interactiveProcs []process.Processor
 }
 
 //NewApp creates a new application
 func NewApp(
-	l logging.Logger,
+	l log.Logger,
 ) (a App) {
 	a.logger = l
 	return a
@@ -32,7 +32,7 @@ func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
-func (a App) GetProcessorByName(procs []processes.Processor, n string) (proc processes.Processor) {
+func (a App) GetProcessorByName(procs []process.Processor, n string) (proc process.Processor) {
 	for _, p := range procs {
 		if p.Name() == n {
 			proc = p
@@ -42,7 +42,7 @@ func (a App) GetProcessorByName(procs []processes.Processor, n string) (proc pro
 	return proc
 }
 
-func (a *App) RunInteractive(procs []processes.Processor) {
+func (a *App) RunInteractive(procs []process.Processor) {
 	a.interactiveProcs = procs
 
 	for {
@@ -55,13 +55,13 @@ func (a *App) RunInteractive(procs []processes.Processor) {
 	}
 }
 
-func (a *App) RunAsync(procs []processes.Processor) {
+func (a *App) RunAsync(procs []process.Processor) {
 	for _, p := range procs {
 		go p.Do()
 	}
 }
 
-func (a *App) RunInOrder(procs []processes.Processor) {
+func (a *App) RunInOrder(procs []process.Processor) {
 	for _, p := range procs {
 		p.Do()
 	}

@@ -1,7 +1,7 @@
 package frameworks
 
 import (
-	"github.com/flores95/goref/frameworks/logging"
+	"github.com/flores95/goref/frameworks/log"
 )
 
 type MockWorker struct {
@@ -10,9 +10,9 @@ type MockWorker struct {
 	TypeInvoked      bool
 	TypeFunc         func() string
 	SetLoggerInvoked bool
-	SetLoggerFunc    func(logging.Logger)
+	SetLoggerFunc    func(log.Logger)
 	GetLoggerInvoked bool
-	GetLoggerFunc    func() logging.Logger
+	GetLoggerFunc    func() log.Logger
 }
 
 func (m *MockWorker) Name() string {
@@ -25,12 +25,12 @@ func (m *MockWorker) Type() string {
 	return m.TypeFunc()
 }
 
-func (m *MockWorker) SetLogger(l logging.Logger) {
+func (m *MockWorker) SetLogger(l log.Logger) {
 	m.SetLoggerInvoked = true
 	m.SetLoggerFunc(l)
 }
 
-func (m *MockWorker) GetLogger() logging.Logger {
+func (m *MockWorker) GetLogger() log.Logger {
 	m.GetLoggerInvoked = true
 	return m.GetLoggerFunc()
 }

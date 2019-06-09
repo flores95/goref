@@ -1,13 +1,13 @@
 package frameworks
 
 import (
-	"github.com/flores95/goref/frameworks/logging"
+	"github.com/flores95/goref/frameworks/log"
 )
 
 type Worker interface {
 	Nameable
 	Typeable
-	logging.Loggable
+	log.Loggable
 }
 
 type WorkerType int

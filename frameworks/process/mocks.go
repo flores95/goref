@@ -1,10 +1,10 @@
-package processes
+package process
 
 type MockProcessor struct {
-	DoInvoked bool
-	DoFunc func()
+	DoInvoked   bool
+	DoFunc      func()
 	NameInvoked bool
-	NameFunc func() string
+	NameFunc    func() string
 }
 
 func (m *MockProcessor) Do() {

@@ -4,20 +4,20 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/goref/apps/cli/processes"
 	"github.com/flores95/goref/frameworks"
-	"github.com/flores95/goref/frameworks/logging"
+	"github.com/flores95/goref/frameworks/log"
+	"github.com/flores95/goref/frameworks/process"
 )
 
-func createMockProcesses() []processes.Processor {
-	p := new(processes.MockProcessor)
+func createMockProcesses() []process.Processor {
+	p := new(process.MockProcessor)
 	p.DoFunc = func() {
 		// nothing to do here :)
 	}
 	p.NameFunc = func() string {
 		return "Mock Processor"
 	}
-	return []processes.Processor{p}
+	return []process.Processor{p}
 }
 
 func createMockWorkers() []frameworks.Worker {
@@ -28,17 +28,17 @@ func createMockWorkers() []frameworks.Worker {
 	w.TypeFunc = func() string {
 		return "MOCK"
 	}
-	w.SetLoggerFunc = func(logging.Logger) {
+	w.SetLoggerFunc = func(log.Logger) {
 		// nothing to do here :)
 	}
-	w.GetLoggerFunc = func() logging.Logger {
-		return new(logging.MockLogger)
+	w.GetLoggerFunc = func() log.Logger {
+		return new(log.MockLogger)
 	}
 	return []frameworks.Worker{w}
 }
 
 func TestNewApp(t *testing.T) {
-	logger := new(logging.MockLogger)
+	logger := new(log.MockLogger)
 
 	tests := []struct {
 		name  string
@@ -60,14 +60,14 @@ func TestNewApp(t *testing.T) {
 
 func TestApp_GetProcessorByName(t *testing.T) {
 	procs := createMockProcesses()
-	logger := new(logging.MockLogger)
+	logger := new(log.MockLogger)
 
 	tests := []struct {
 		name     string
 		a        App
-		procs    []processes.Processor
+		procs    []process.Processor
 		n        string
-		wantProc processes.Processor
+		wantProc process.Processor
 	}{
 		{
 			name:     "Should be able to retrieve processor by name",

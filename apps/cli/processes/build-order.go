@@ -8,6 +8,7 @@ import (
 	"github.com/c-bata/go-prompt"
 	"github.com/flores95/goref/apps/controllers"
 	"github.com/flores95/goref/apps/models"
+	"github.com/flores95/goref/frameworks/process"
 )
 
 type BuildOrderProcess struct {
@@ -21,7 +22,7 @@ func NewBuildOrderProcess(
 	oc controllers.OrderController,
 	pc controllers.ProductController,
 	uc controllers.UserController,
-) Processor {
+) process.Processor {
 	proc := BuildOrderProcess{}
 	proc.name = "Order Products"
 	proc.orders = oc
