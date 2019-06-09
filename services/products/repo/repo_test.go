@@ -4,18 +4,18 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/goref/services/products/product"
+	"github.com/flores95/goref/services/products/models"
 )
 
 func Test_Insert(t *testing.T) {
 	r := Repo{}
 	tests := []struct {
 		name string
-		p    product.Product
+		p    models.Product
 	}{
 		{
 			name: "Can insert a product",
-			p: product.Product{UPC: "some-upc-to-test"},
+			p: models.Product{UPC: "some-upc-to-test"},
 		},
 	}
 	for _, tt := range tests {
@@ -27,21 +27,21 @@ func Test_Insert(t *testing.T) {
 
 func TestRepo_GetAll(t *testing.T) {
 	r := Repo{}
-	r.Insert(product.Product{UPC: "some-upc-to-test-01"})
-	r.Insert(product.Product{UPC: "some-upc-to-test-02"})
-	r.Insert(product.Product{UPC: "some-upc-to-test-03"})
+	r.Insert(models.Product{UPC: "some-upc-to-test-01"})
+	r.Insert(models.Product{UPC: "some-upc-to-test-02"})
+	r.Insert(models.Product{UPC: "some-upc-to-test-03"})
 	tests := []struct {
 		name string
 		r    *Repo
-		want []product.Product
+		want []models.Product
 	}{
 		{
 			name: "Get all products",
 			r:    &r,
-			want: []product.Product{
-				product.Product{UPC: "some-upc-to-test-01"},
-				product.Product{UPC: "some-upc-to-test-02"},
-				product.Product{UPC: "some-upc-to-test-03"},
+			want: []models.Product{
+				models.Product{UPC: "some-upc-to-test-01"},
+				models.Product{UPC: "some-upc-to-test-02"},
+				models.Product{UPC: "some-upc-to-test-03"},
 			},
 		},
 	}

@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/flores95/goref/frameworks/config"
-	"github.com/flores95/goref/services/orders/order"
+	"github.com/flores95/goref/services/orders/models"
 	"github.com/flores95/goref/services/orders/repo"
 )
 
@@ -44,7 +44,7 @@ func findOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func createOrder(w http.ResponseWriter, r *http.Request) {
-	var o order.Order
+	var o models.Order
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &o)
 	newOrder := store.Insert(o)

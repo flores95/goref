@@ -4,13 +4,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/goref/services/orders/order"
+	"github.com/flores95/goref/services/orders/models"
 )
 
 func Test_Insert(t *testing.T) {
 	r := Repo{}
 	type args struct {
-		o order.Order
+		o models.Order
 	}
 	tests := []struct {
 		name string
@@ -18,7 +18,7 @@ func Test_Insert(t *testing.T) {
 	}{
 		{
 			name: "Can insert an order",
-			args: args{order.Order{UserEmail: "insert@test.com"}},
+			args: args{models.Order{UserEmail: "insert@test.com"}},
 		},
 	}
 	for _, tt := range tests {
@@ -30,18 +30,18 @@ func Test_Insert(t *testing.T) {
 
 func TestRepo_GetAll(t *testing.T) {
 	r := Repo{}
-	r.Insert(order.Order{UserEmail: "user1@test.com"})
-	r.Insert(order.Order{UserEmail: "user2@test.com"})
-	r.Insert(order.Order{UserEmail: "user3@test.com"})
+	r.Insert(models.Order{UserEmail: "user1@test.com"})
+	r.Insert(models.Order{UserEmail: "user2@test.com"})
+	r.Insert(models.Order{UserEmail: "user3@test.com"})
 	tests := []struct {
 		name string
 		r    *Repo
-		want []order.Order
+		want []models.Order
 	}{
 		{
 			name: "Get all orders",
 			r:    &r,
-			want: []order.Order{
+			want: []models.Order{
 				{ID: "ORD-1000", UserEmail: "user1@test.com"},
 				{ID: "ORD-1001", UserEmail: "user2@test.com"},
 				{ID: "ORD-1002", UserEmail: "user3@test.com"},
@@ -59,14 +59,14 @@ func TestRepo_GetAll(t *testing.T) {
 
 func TestRepo_GetOrders(t *testing.T) {
 	r := Repo{}
-	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
-	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
-	r.Insert(order.Order{UserEmail: "hasorders@test.com"})
+	r.Insert(models.Order{UserEmail: "hasorders@test.com"})
+	r.Insert(models.Order{UserEmail: "hasorders@test.com"})
+	r.Insert(models.Order{UserEmail: "hasorders@test.com"})
 	tests := []struct {
 		name       string
 		r          *Repo
 		email      string
-		wantOrders []order.Order
+		wantOrders []models.Order
 	}{
 		{
 			name:       "All orders for a user with orders",

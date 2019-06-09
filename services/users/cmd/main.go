@@ -10,8 +10,8 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/flores95/goref/services/users/models"
 	"github.com/flores95/goref/services/users/repo"
-	"github.com/flores95/goref/services/users/user"
 )
 
 var store = repo.Repo{}
@@ -27,7 +27,7 @@ func allUsers(w http.ResponseWriter, r *http.Request) {
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var u user.User
+	var u models.User
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &u)
 	store.Insert(u)

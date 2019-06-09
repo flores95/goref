@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/flores95/goref/frameworks/config"
-	"github.com/flores95/goref/services/products/product"
+	"github.com/flores95/goref/services/products/models"
 	"github.com/flores95/goref/services/products/repo"
 )
 
@@ -26,7 +26,7 @@ func allProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func createProduct(w http.ResponseWriter, r *http.Request) {
-	var p product.Product
+	var p models.Product
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &p)
 	newProduct := store.Insert(p)

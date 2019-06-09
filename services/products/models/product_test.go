@@ -1,4 +1,5 @@
-package product
+package models
+
 
 import (
 	"testing"

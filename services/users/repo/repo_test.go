@@ -4,13 +4,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/flores95/goref/services/users/user"
+	"github.com/flores95/goref/services/users/models"
 )
 
 func Test_Insert(t *testing.T) {
 	r := Repo{}
 	type args struct {
-		u user.User
+		u models.User
 	}
 	tests := []struct {
 		name string
@@ -18,7 +18,7 @@ func Test_Insert(t *testing.T) {
 	}{
 		{
 			name: "Can insert a user",
-			args: args{user.User{Email: "insert@test.com"}},
+			args: args{models.User{Email: "insert@test.com"}},
 		},
 	}
 	for _, tt := range tests {
@@ -30,18 +30,18 @@ func Test_Insert(t *testing.T) {
 
 func TestRepo_GetAll(t *testing.T) {
 	r := Repo{}
-	r.Insert(user.User{Email: "user1@test.com"})
-	r.Insert(user.User{Email: "user2@test.com"})
-	r.Insert(user.User{Email: "user3@test.com"})
+	r.Insert(models.User{Email: "user1@test.com"})
+	r.Insert(models.User{Email: "user2@test.com"})
+	r.Insert(models.User{Email: "user3@test.com"})
 	tests := []struct {
 		name string
 		r    *Repo
-		want []user.User
+		want []models.User
 	}{
 		{
 			name: "Get all users",
 			r:    &r,
-			want: []user.User{
+			want: []models.User{
 				{Email: "user1@test.com"},
 				{Email: "user2@test.com"},
 				{Email: "user3@test.com"},
