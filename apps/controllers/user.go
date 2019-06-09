@@ -10,6 +10,7 @@ import (
 	"github.com/flores95/goref/frameworks/config"
 )
 
+// UserController manages interactions and events for users
 type UserController struct {
 	users       []models.User
 	currentUser models.User
@@ -17,6 +18,7 @@ type UserController struct {
 	cfg         config.Configurator
 }
 
+// NewUserController creates a new user controller using defaults or provided configurator settings
 func NewUserController(cfg config.Configurator) *UserController {
 	c := new(UserController)
 	c.cfg = cfg
@@ -27,6 +29,7 @@ func NewUserController(cfg config.Configurator) *UserController {
 	return c
 }
 
+// Load retrieves all existing users
 func (c *UserController) Load() {
 	if len(c.users) > 0 {
 		fmt.Println(":: Users loaded from cache")
@@ -49,10 +52,12 @@ func (c *UserController) Load() {
 	c.users = users
 }
 
+// GetAll returns previously Load(ed) users
 func (c UserController) GetAll() []models.User {
 	return c.users
 }
 
+// GetUserFromEmail will return the first existing user to match the provide email
 func (c UserController) GetUserFromEmail(e string) (user models.User) {
 	for _, u := range c.users {
 		if u.Email == e {
@@ -63,10 +68,12 @@ func (c UserController) GetUserFromEmail(e string) (user models.User) {
 	return user
 }
 
+// GetCurrentUser returns the currently authenticated user that is using the app
 func (c *UserController) GetCurrentUser() models.User {
 	return c.currentUser
 }
 
+// SetCurrentUser set the currently authenticated user that is using the app
 func (c *UserController) SetCurrentUser(u models.User) {
 	c.currentUser = u
 }

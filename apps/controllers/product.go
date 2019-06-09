@@ -10,12 +10,14 @@ import (
 	"github.com/flores95/goref/frameworks/config"
 )
 
+// ProductController handles events and interactions with products
 type ProductController struct {
 	products []models.Product
 	endpoint string
 	cfg      config.Configurator
 }
 
+// NewProductController creates a new product controller using default values or those in the passed configurator
 func NewProductController(cfg config.Configurator) *ProductController {
 	c := new(ProductController)
 	c.cfg = cfg
@@ -26,6 +28,7 @@ func NewProductController(cfg config.Configurator) *ProductController {
 	return c
 }
 
+// Load retrieves existing products
 func (c *ProductController) Load() {
 	if len(c.products) > 0 {
 		fmt.Println(":: Products loaded from cache")
@@ -48,6 +51,7 @@ func (c *ProductController) Load() {
 	c.products = products
 }
 
+// GetAll returns an array of retrieved/Load(ed) products
 func (c *ProductController) GetAll() []models.Product {
 	return c.products
 }
