@@ -17,7 +17,7 @@ func TestNewUserController(t *testing.T) {
 		{
 			name: "User Controller is created with a default user service endpoint",
 			kvs:  config.KVS{},
-			want: "http://localhost:4181/users",
+			want: "http://localhost:4180/users",
 		},
 		{
 			name: "User Controller is created with an endpoint set in configuration data",

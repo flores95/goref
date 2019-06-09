@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/flores95/goref/cli/models"
+import "github.com/flores95/goref/apps/models"
 
 type MockProductController struct {
 }

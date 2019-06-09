@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/flores95/goref/cli/app"
-	"github.com/flores95/goref/cli/controllers"
-	"github.com/flores95/goref/cli/processes"
+	"github.com/flores95/goref/apps/cli"
+	"github.com/flores95/goref/apps/cli/processes"
+	"github.com/flores95/goref/apps/controllers"
 	"github.com/flores95/goref/frameworks/config"
 	"github.com/flores95/goref/frameworks/logging"
 )
@@ -41,7 +41,7 @@ func main() {
 	iProcs = append(iProcs, processes.NewExitProcess())
 
 	// compose it all together and run
-	a := app.NewApp(l)
+	a := cli.NewApp(l)
 	a.RunInOrder(oProcs)
 	a.RunInteractive(iProcs)
 }

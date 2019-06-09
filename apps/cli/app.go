@@ -1,11 +1,11 @@
-package app
+package cli
 
 import (
 	"fmt"
 
 	"github.com/c-bata/go-prompt"
+	"github.com/flores95/goref/apps/cli/processes"
 	"github.com/flores95/goref/frameworks/logging"
-	"github.com/flores95/goref/cli/processes"
 )
 
 //App controls the application

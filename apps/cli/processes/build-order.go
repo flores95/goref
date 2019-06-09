@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/c-bata/go-prompt"
-	"github.com/flores95/goref/cli/controllers"
-	"github.com/flores95/goref/cli/models"
+	"github.com/flores95/goref/apps/controllers"
+	"github.com/flores95/goref/apps/models"
 )
 
 type BuildOrderProcess struct {

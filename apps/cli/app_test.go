@@ -1,12 +1,12 @@
-package app
+package cli
 
 import (
 	"reflect"
 	"testing"
 
+	"github.com/flores95/goref/apps/cli/processes"
 	"github.com/flores95/goref/frameworks"
 	"github.com/flores95/goref/frameworks/logging"
-	"github.com/flores95/goref/cli/processes"
 )
 
 func createMockProcesses() []processes.Processor {

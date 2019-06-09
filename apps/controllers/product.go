@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/flores95/goref/cli/models"
+	"github.com/flores95/goref/apps/models"
 	"github.com/flores95/goref/frameworks/config"
 )
 
