@@ -17,6 +17,7 @@ func (r *Repo) GetAll() []models.User {
 	return r.data
 }
 
+// LoadDemoData does what it says
 func (r *Repo) LoadDemoData() {
 	r.Insert(models.User{Email: "mike@fake.com", Name: "Fake Mike", Phone: "NaN"})
 	r.Insert(models.User{Email: "mike@test.com", Name: "Test Mike", Phone: "123-456-7890"})

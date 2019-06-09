@@ -9,16 +9,19 @@ import (
 )
 
 type (
+	// Logger represents what an implementation of a logger requires
 	Logger interface {
 		Log(LogEvent)
 		SetLevel(LogLevel)
 	}
 
+	// Loggable represents what an implementation of a loggable class requires
 	Loggable interface {
 		SetLogger(Logger)
 		GetLogger() Logger
 	}
 
+	// LogEvent represents a log event
 	LogEvent struct {
 		Level   LogLevel
 		Time    time.Time
@@ -26,9 +29,11 @@ type (
 		Details string
 	}
 
+	// LogLevel is the level of logs to write
 	LogLevel int
 )
 
+// constants for log levels
 const (
 	Unassigned LogLevel = 0
 	Debug      LogLevel = 1
@@ -54,6 +59,7 @@ func NewLogger(c config.Configurator) Logger {
 	return l
 }
 
+// NewLogLevel gets a LogLevel from a string
 func NewLogLevel(s string) LogLevel {
 	levels := map[string]LogLevel{
 		"unassigned": 0,
@@ -65,6 +71,7 @@ func NewLogLevel(s string) LogLevel {
 	return levels[strings.ToLower(s)]
 }
 
+// String is the string representation of a log level
 func (level LogLevel) String() string {
 	names := [...]string{
 		"unassigned",
@@ -76,6 +83,7 @@ func (level LogLevel) String() string {
 	return names[level]
 }
 
+// NewLogEvent creates a new instance of a log event
 func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
 	event.Time = time.Now()
 	event.Level = level
@@ -84,6 +92,7 @@ func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
 	return event
 }
 
+// String returns a string representation of a log event
 func (e LogEvent) String() string {
 	return fmt.Sprintf("%v :: %v :: %v\n\t%v", e.Time.Local(), e.Level, e.Context, e.Details)
 }

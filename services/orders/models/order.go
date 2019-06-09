@@ -1,5 +1,6 @@
 package models
 
+// Order represents a stored customer order
 type Order struct {
 	ID        string
 	Items     []Item
@@ -8,6 +9,7 @@ type Order struct {
 	UserPhone string
 }
 
+// Item represents an item in an order
 type Item struct {
 	ItemUPC  string
 	Quantity int

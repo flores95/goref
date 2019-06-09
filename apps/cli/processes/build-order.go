@@ -11,6 +11,7 @@ import (
 	"github.com/flores95/goref/frameworks/process"
 )
 
+// BuildOrderProcess manages the interactive process of building an order
 type BuildOrderProcess struct {
 	name     string
 	orders   controllers.OrderController
@@ -18,6 +19,7 @@ type BuildOrderProcess struct {
 	users    controllers.UserController
 }
 
+// NewBuildOrderProcess creates a new build order process
 func NewBuildOrderProcess(
 	oc controllers.OrderController,
 	pc controllers.ProductController,
@@ -36,6 +38,7 @@ func emptyCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
+// Name returns the name of this process
 func (proc BuildOrderProcess) Name() string {
 	return proc.name
 }
@@ -63,6 +66,7 @@ func (proc BuildOrderProcess) productsCompleter(in prompt.Document) []prompt.Sug
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
+// Do executes the interactive process that builds an order
 func (proc BuildOrderProcess) Do() {
 	u := proc.users.GetCurrentUser()
 	fmt.Printf("%v, what would you like to order?\n", u.Name)

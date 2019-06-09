@@ -9,12 +9,14 @@ import (
 	"github.com/flores95/goref/frameworks/process"
 )
 
+// AuthenticateProcess authenticates a user and sets them as the current users
 type AuthenticateProcess struct {
 	users controllers.UserController
 	user  models.User
 	name  string
 }
 
+// NewAuthenticateProcess creates a authenticate processor 
 func NewAuthenticateProcess(
 	uc controllers.UserController,
 ) process.Processor {
@@ -34,10 +36,12 @@ func (proc AuthenticateProcess) completer(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
+// Name returns the name of the process
 func (proc AuthenticateProcess) Name() string {
 	return proc.name
 }
 
+// Do executes the processes logic 
 func (proc AuthenticateProcess) Do() {
 	var u models.User
 	for {

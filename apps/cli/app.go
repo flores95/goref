@@ -32,6 +32,7 @@ func (a App) processCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
 }
 
+// GetProcessorByName finds the named processor in the given list
 func (a App) GetProcessorByName(procs []process.Processor, n string) (proc process.Processor) {
 	for _, p := range procs {
 		if p.Name() == n {
@@ -42,6 +43,7 @@ func (a App) GetProcessorByName(procs []process.Processor, n string) (proc proce
 	return proc
 }
 
+// RunInteractive allows users to interactively select what to run from the given processors
 func (a *App) RunInteractive(procs []process.Processor) {
 	a.interactiveProcs = procs
 
@@ -55,12 +57,14 @@ func (a *App) RunInteractive(procs []process.Processor) {
 	}
 }
 
+// RunAsync will run all of the given processes asynchonously in separate go routines
 func (a *App) RunAsync(procs []process.Processor) {
 	for _, p := range procs {
 		go p.Do()
 	}
 }
 
+// RunInOrder runs the given processors in order synchonously
 func (a *App) RunInOrder(procs []process.Processor) {
 	for _, p := range procs {
 		p.Do()
