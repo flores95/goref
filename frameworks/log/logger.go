@@ -11,8 +11,8 @@ import (
 type (
 	// Logger represents what an implementation of a logger requires
 	Logger interface {
-		Log(LogEvent)
-		SetLevel(LogLevel)
+		Log(Entry)
+		SetLevel(Level)
 	}
 
 	// Loggable represents what an implementation of a loggable class requires
@@ -21,25 +21,25 @@ type (
 		GetLogger() Logger
 	}
 
-	// LogEvent represents a log event
-	LogEvent struct {
-		Level   LogLevel
+	// Entry represents a log entry
+	Entry struct {
+		Level   Level
 		Time    time.Time
 		Context string
 		Details string
 	}
 
-	// LogLevel is the level of logs to write
-	LogLevel int
+	// Level is the level of logs to write
+	Level int
 )
 
 // constants for log levels
 const (
-	Unassigned LogLevel = 0
-	Debug      LogLevel = 1
-	Error      LogLevel = 2
-	Warning    LogLevel = 3
-	Info       LogLevel = 4
+	Unassigned Level = 0
+	Debug      Level = 1
+	Error      Level = 2
+	Warning    Level = 3
+	Info       Level = 4
 )
 
 // NewLogger is a factory for the Logger interface
@@ -59,9 +59,9 @@ func NewLogger(c config.Configurator) Logger {
 	return l
 }
 
-// NewLogLevel gets a LogLevel from a string
-func NewLogLevel(s string) LogLevel {
-	levels := map[string]LogLevel{
+// NewLevel gets a Level from a string
+func NewLevel(s string) Level {
+	levels := map[string]Level{
 		"unassigned": 0,
 		"debug":      1,
 		"error":      2,
@@ -72,7 +72,7 @@ func NewLogLevel(s string) LogLevel {
 }
 
 // String is the string representation of a log level
-func (level LogLevel) String() string {
+func (level Level) String() string {
 	names := [...]string{
 		"unassigned",
 		"debug",
@@ -83,8 +83,8 @@ func (level LogLevel) String() string {
 	return names[level]
 }
 
-// NewLogEvent creates a new instance of a log event
-func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
+// NewEntry creates a new instance of a log event
+func NewEntry(level Level, ctx string, detail string) (event Entry) {
 	event.Time = time.Now()
 	event.Level = level
 	event.Context = ctx
@@ -93,6 +93,6 @@ func NewLogEvent(level LogLevel, ctx string, detail string) (event LogEvent) {
 }
 
 // String returns a string representation of a log event
-func (e LogEvent) String() string {
+func (e Entry) String() string {
 	return fmt.Sprintf("%v :: %v :: %v\n\t%v", e.Time.Local(), e.Level, e.Context, e.Details)
 }

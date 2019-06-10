@@ -9,7 +9,7 @@ import (
 // ConsoleLogger will print logs to the console
 type ConsoleLogger struct {
 	cfg   config.Configurator
-	level LogLevel
+	level Level
 }
 
 // NewConsoleLogger creates a new console logger as configured by the given configurator
@@ -20,7 +20,7 @@ func NewConsoleLogger(c config.Configurator) Logger {
 }
 
 // Log will write the log entry to console
-func (l *ConsoleLogger) Log(le LogEvent) {
+func (l *ConsoleLogger) Log(le Entry) {
 	if le.Level == Unassigned {
 		le.Level = l.level
 	}
@@ -28,6 +28,6 @@ func (l *ConsoleLogger) Log(le LogEvent) {
 }
 
 // SetLevel allows the logging level to be set. This indicates which log entries to write
-func (l *ConsoleLogger) SetLevel(level LogLevel) {
+func (l *ConsoleLogger) SetLevel(level Level) {
 	l.level = level
 }

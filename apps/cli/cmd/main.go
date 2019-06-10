@@ -14,7 +14,7 @@ func main() {
 	c := config.NewDotenvConfigurator("CLI_")
 	l := log.NewLogger(c)
 	ll := c.GetValue("LOG_LEVEL")
-	l.SetLevel(log.NewLogLevel(ll))
+	l.SetLevel(log.NewLevel(ll))
 
 	// business logic handlers
 	products := controllers.NewProductController(c)
