@@ -6,8 +6,8 @@ import (
 
 // Worker represents a framework tool ... like a logger or configurator or authenticator
 type Worker interface {
-	Nameable
-	Typeable
+	Namer
+	Typer
 	log.Loggable
 }
 
