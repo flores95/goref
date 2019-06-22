@@ -7,18 +7,18 @@ import (
 	"net/http"
 
 	"github.com/flores95/goref/frameworks/config"
+	"github.com/flores95/goref/frameworks/storage"
 
 	"github.com/gorilla/mux"
 
 	"github.com/flores95/goref/services/users/models"
-	"github.com/flores95/goref/services/users/repo"
 )
 
-var store = repo.Repo{}
+var store = storage.NewMemoryStore("users", "UID", 1000)
 
 func allUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	u := store.GetAll()
+	u := store.Items()
 	j, _ := json.Marshal(u)
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
@@ -30,7 +30,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	var u models.User
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &u)
-	store.Insert(u)
+	store.AddItem(&u)
 	j, _ := json.Marshal(u)
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
@@ -40,8 +40,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 func main() {
 	l := config.NewDotenvConfigurator("USERS_")
 	fmt.Printf(":: USERS MICROSERVICE :: http://localhost:%v\n", l.GetValue("PORT"))
-	store.LoadDemoData()
-	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.GetAll()))
+	models.LoadDemoUsers(store)
+	fmt.Printf(":: [%v] DEMO USERS LOADED ::\n", len(store.Items()))
 	r := mux.NewRouter()
 	r.HandleFunc("/users", allUsers).Methods("GET")
 	r.HandleFunc("/users", createUser).Methods("POST")
