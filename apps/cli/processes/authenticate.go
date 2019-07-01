@@ -30,7 +30,7 @@ func (proc AuthenticateProcess) completer(in prompt.Document) []prompt.Suggest {
 	var s []prompt.Suggest
 
 	for _, u := range proc.users.GetAll() {
-		s = append(s, prompt.Suggest{Text: u.Email, Description: u.Name})
+		s = append(s, prompt.Suggest{Text: u.Email(), Description: u.Name()})
 	}
 
 	return prompt.FilterHasPrefix(s, in.GetWordBeforeCursor(), true)
@@ -47,12 +47,12 @@ func (proc AuthenticateProcess) Do() {
 	for {
 		e := prompt.Input("USER: ", proc.completer)
 		u = proc.users.GetUserFromEmail(e)
-		if u.Email != "" {
+		if u.Email() != "" {
 			proc.user = u
 			break
 		}
 	}
 
-	fmt.Printf("Welcome %v!\n", proc.user.Name)
+	fmt.Printf("Welcome %v!\n", proc.user.Name())
 	proc.users.SetCurrentUser(proc.user)
 }

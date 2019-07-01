@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+
 	"github.com/flores95/goref/frameworks"
 	"github.com/flores95/goref/frameworks/storage"
 )
@@ -22,6 +24,15 @@ func NewUser(id frameworks.ID, email string, name string, phone string) *User {
 	u.name = name
 	u.phone = phone
 	return u
+}
+
+// MarshalJSON will create a JSON version of the user object including some of the invisible fields
+func (u User) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]interface{}{
+		"email": u.email,
+		"name":  u.name,
+		"phone": u.phone,
+	})
 }
 
 // ID provides access to the user's id as part of a storage item's interface

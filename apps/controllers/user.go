@@ -48,6 +48,7 @@ func (c *UserController) Load() {
 		panic("couldn't read from http")
 	}
 	json.Unmarshal(body, &users)
+	fmt.Println(users)
 
 	c.users = users
 }
@@ -60,7 +61,7 @@ func (c UserController) GetAll() []models.User {
 // GetUserFromEmail will return the first existing user to match the provide email
 func (c UserController) GetUserFromEmail(e string) (user models.User) {
 	for _, u := range c.users {
-		if u.Email == e {
+		if u.Email() == e {
 			user = u
 			return user
 		}
