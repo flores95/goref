@@ -9,19 +9,14 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/flores95/goref/frameworks/config"
+	"github.com/flores95/goref/frameworks/storage"
 	"github.com/flores95/goref/services/orders/models"
-	"github.com/flores95/goref/services/orders/repo"
 )
 
-var store = repo.Repo{}
-
-//OrderSearch is just a struct to marshal the data for searching orders
-type OrderSearch struct {
-	UserEmail string
-}
+var store = storage.NewMemoryStore("orders", "OID", 1000)
 
 func allOrders(w http.ResponseWriter, r *http.Request) {
-	o := store.GetAll()
+	o := store.Items()
 	j, _ := json.Marshal(o)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -31,10 +26,16 @@ func allOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 func findOrders(w http.ResponseWriter, r *http.Request) {
-	var os OrderSearch
+	var os models.OrderSearch
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &os)
-	o := store.GetOrders(os.UserEmail)
+
+	var orders []models.Order
+	for _, i := range store.Items() {
+		orders = append(orders, i.(models.Order))
+	}
+
+	o := os.Find(orders)
 	j, _ := json.Marshal(o)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -47,13 +48,13 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 	var o models.Order
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &o)
-	newOrder := store.Insert(o)
-	j, _ := json.Marshal(newOrder)
+	store.AddItem(o)
+	j, _ := json.Marshal(&o)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
-	fmt.Printf(":: ORDER CREATED :: [%v]\n", newOrder.ID)
+	fmt.Printf(":: ORDER CREATED :: [%v]\n", o.ID())
 }
 
 func main() {
