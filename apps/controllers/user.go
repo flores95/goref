@@ -48,7 +48,6 @@ func (c *UserController) Load() {
 		panic("couldn't read from http")
 	}
 	json.Unmarshal(body, &users)
-	fmt.Println(users)
 
 	c.users = users
 }

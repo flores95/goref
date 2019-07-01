@@ -46,7 +46,7 @@ func (proc BuildOrderProcess) Name() string {
 func (proc BuildOrderProcess) productFromPrompt(prompt string) (product models.Product) {
 	for _, p := range proc.products.GetAll() {
 		parsedInput := strings.Split(prompt, " :: ")
-		if len(parsedInput) > 1 && p.UPC == parsedInput[1] {
+		if len(parsedInput) > 1 && p.ID == parsedInput[1] {
 			product = p
 			return product
 		}
@@ -69,7 +69,7 @@ func (proc BuildOrderProcess) productsCompleter(in prompt.Document) []prompt.Sug
 // Do executes the interactive process that builds an order
 func (proc BuildOrderProcess) Do() {
 	u := proc.users.GetCurrentUser()
-	fmt.Printf("%v, what would you like to order?\n", u.Name)
+	fmt.Printf("%v, what would you like to order?\n", u.Name())
 
 	var o models.Order
 	for {
@@ -79,10 +79,10 @@ func (proc BuildOrderProcess) Do() {
 		}
 		item := proc.productFromPrompt(sel)
 
-		if item.UPC != "" {
+		if item.ID != "" {
 			qs := prompt.Input(fmt.Sprintf("How many %v would you like?", item.Name), emptyCompleter)
 			qty, _ := strconv.Atoi(qs)
-			o.Items = append(o.Items, models.Item{ItemUPC: item.UPC, Quantity: qty})
+			o.Items = append(o.Items, models.Item{ItemUPC: item.ID, Quantity: qty})
 		}
 	}
 	fmt.Println("Your order:")
@@ -91,6 +91,6 @@ func (proc BuildOrderProcess) Do() {
 
 	if resp == "yes" {
 		newOrder := proc.orders.PlaceOrder(o)
-		fmt.Printf("Thank you %v, the following order has been placed for you:\n%v\n", u.Name, newOrder)
+		fmt.Printf("Thank you %v, the following order has been placed for you:\n%v\n", u.Name(), newOrder)
 	}
 }

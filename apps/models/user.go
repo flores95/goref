@@ -38,10 +38,7 @@ func (u *User) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	fmt.Println("AFTER UNMARSHAL")
-	fmt.Println(userJSON.Email)
-
-	u.email = userJSON.Email
+    u.email = userJSON.Email
 	u.name = userJSON.Name
 	u.phone = userJSON.Phone
 
