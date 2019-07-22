@@ -36,22 +36,22 @@ func (u User) MarshalJSON() ([]byte, error) {
 }
 
 // ID provides access to the user's id as part of a storage item's interface
-func (u *User) ID() frameworks.ID {
+func (u User) ID() frameworks.ID {
 	return u.id
 }
 
 // Name provides access to the user's name as part of a storage item's interface
-func (u *User) Name() string {
+func (u User) Name() string {
 	return u.name
 }
 
 // Tags returns all the tags that have been added to this user
-func (u *User) Tags() []frameworks.Tag {
+func (u User) Tags() []frameworks.Tag {
 	return u.tags
 }
 
 // HasTag indicates if this given tag has been added to this user
-func (u *User) HasTag(t frameworks.Tag) bool {
+func (u User) HasTag(t frameworks.Tag) bool {
 	result := false
 	return result
 }
