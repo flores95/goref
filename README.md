@@ -17,6 +17,7 @@ This repository contains a set of services and a command line app that demonstra
 ### interfaces
 
 ### go routines
+>Routines in go provide the ability to execute in parallel or on multiple threads. The only rudimentary example of this in this repository is in `apps/cli/app.go`. The **RunAsync** function will run each **Processor** in it's own thread asyncrhonously. 
 
 ### packages
 
@@ -29,6 +30,11 @@ This repository contains a set of services and a command line app that demonstra
 ### dependency injection
 
 ### factories
+> Since go doesn't have the concept of a constructor for structs, you'll find the use of struct/class factories all over go code. This usually takes the form of a function called  _NewStructName()_. You can find many examples of this patter in this repository. 
+
+> More elobarate examples of factories that generate interfaces based on configuration data can be found in `frameworks/log/logger.go` and `frameworks/storage/store.go`. Each of these **new** functions will generate an implementation of the interface based on configurator settings. 
 
 ### inheritance (or as close as it gets in go)
+> Inheritance is not a built in go construct. The concept of inheritance (inheriting behavior of a parent class and chosing to use it or extend it) is easily achievable. If two structs implement the same interface, one can become a base/parent/super class of the other by simply adding it to the child struct. You can find an examples of this patern in this repository. 
 
+>The **Configurator** interface. `frameworks/config/dotenv.go` implements the **Configurator** interface and uses `frameworks/config/base.go` as it's "parent" or super class. The reference in **dotenv** to **base** is called super but that's just to make old school OO developers happy. There's nothing special about the attribute name "super".
