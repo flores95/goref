@@ -13,7 +13,7 @@ import (
 
 // Service provides access to and management of one or more servicers or endpoints
 type Service struct {
-	base    service.HTTPServicer
+	super   service.HTTPServicer
 	config  config.Configurator
 	log     log.Logger
 	store   storage.Store
@@ -26,7 +26,7 @@ func NewService(c config.Configurator) (svc Service) {
 	svc.log = log.NewLogger(c)
 	svc.store = storage.NewStore(c)
 
-	svc.base = service.NewHTTPServicer(svc.config)
+	svc.super = service.NewHTTPServicer(svc.config)
 	svc.handler = NewHandler(svc.store)
 
 	return svc
@@ -34,16 +34,16 @@ func NewService(c config.Configurator) (svc Service) {
 
 func (svc *Service) allUsers(w http.ResponseWriter, r *http.Request) {
 	result := svc.handler.All()
-	svc.base.Respond(w, result, http.StatusOK)
+	svc.super.Respond(w, result, http.StatusOK)
 }
 
 func (svc *Service) createUser(w http.ResponseWriter, r *http.Request) {
 	var u models.User
-	svc.base.Read(r, &u)
+	svc.super.Read(r, &u)
 
 	result := svc.handler.Create(u)
 
-	svc.base.Respond(w, result, http.StatusOK)
+	svc.super.Respond(w, result, http.StatusOK)
 }
 
 // Start the service
@@ -61,8 +61,8 @@ func (svc *Service) Start() {
 		fmt.Sprintf(":: [%v] DEMO USERS LOADED ::\n", len(svc.store.Items())),
 	))
 
-	svc.base.Router.HandleFunc("/users", svc.allUsers).Methods("GET")
-	svc.base.Router.HandleFunc("/users", svc.createUser).Methods("POST")
+	svc.super.Router.HandleFunc("/users", svc.allUsers).Methods("GET")
+	svc.super.Router.HandleFunc("/users", svc.createUser).Methods("POST")
 
-	svc.base.Start()
+	svc.super.Start()
 }
