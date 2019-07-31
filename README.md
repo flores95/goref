@@ -22,6 +22,9 @@ This repository contains a set of services and a command line app that demonstra
 ### packages
 
 ### unit testing / mocking
+> The most valuable or interesting test-relate example in this repository are the mocks. In each of the `frameworks` subdirectories you'll find `mocks.go` file with a mock for the various interfaces. I wish I could remember who to give credit for this concept. I found it in some tutorial. The mock's implement the interface and have two key parts: An invoked flag, that will tell you if the method was called, and a func that allows each test to do something unique when each method is called.
+
+> The only other note for now is in the test themseleves. I've used the VS Code extension for go's test generator in almost every test. For the most part I've removed teh generated `args` attribute. I just don't get it. I've also changed the format of the reported error to include the test name.
 
 ---
 
@@ -32,7 +35,10 @@ This repository contains a set of services and a command line app that demonstra
 ### factories
 > Since go doesn't have the concept of a constructor for structs, you'll find the use of struct/class factories all over go code. This usually takes the form of a function called  _NewStructName()_. You can find many examples of this patter in this repository. 
 
-> More elobarate examples of factories that generate interfaces based on configuration data can be found in `frameworks/log/logger.go` and `frameworks/storage/store.go`. Each of these **new** functions will generate an implementation of the interface based on configurator settings. 
+> More elobarate examples of factories that generate interfaces based on configuration data can be found in `frameworks/log/logger.go` and `frameworks/storage/store.go`. Each of these **new** functions will generate an implementation of the interface based on configurator settings.
+
+#### Contextually aware structs
+> One of the interesting uses of factories or constructors in general, is the abilty to create contextually aware code. That is, when a struct or interface is created with a factory or constructor you can set there defaults intelligently. `frameworks/service/http.go` for example will create the HTTPServicer with a default port of 8080 unless there is a port defined in the configurator. You can imagine this pattern being used to have a base default if nothing is set, or if in a dev environment the setting could come from a .env file and in a production environment the setting could come from a configuration service.
 
 ### inheritance (or as close as it gets in go)
 > Inheritance is not a built in go construct. The concept of inheritance (inheriting behavior of a parent class and chosing to use it or extend it) is easily achievable. If two structs implement the same interface, one can become a base/parent/super class of the other by simply adding it to the child struct. You can find an examples of this patern in this repository. 
